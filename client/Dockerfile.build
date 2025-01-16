@@ -1,0 +1,26 @@
+# base os
+FROM node:latest AS builder
+
+# create dir app
+WORKDIR /app
+
+# copy in package.json file
+COPY package.json .
+
+# install dependencies
+RUN npm install
+
+# Add client files
+COPY ./ ./
+
+RUN npm run build
+
+FROM nginx:alpine
+
+COPY --from=builder /app/build /user/share/nginx/html
+
+
+EXPOSE 80
+
+# run command
+CMD ["nginx", "-g", "daemon off;"]
