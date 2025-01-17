@@ -19,7 +19,7 @@ Finalized project scope. We decided as a team that we would create an app that w
 ##### *Action Items*:
   - Zandra, Inderdeep => Refine user stories 
   - Aarthi => Research Chat function. Find out what data we would need to send to a LLM to get the results we want. 
-  - Jonathan: Work on Authentication. 
+  - Jonathan: Work on Authentication. Email instuctor topic.
 ____
 
 #### Meeting: 1/10/25 Attn(Zandra, Aarthi, Inderdeep, Jonathan)
