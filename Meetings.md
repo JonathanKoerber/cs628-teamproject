@@ -5,7 +5,7 @@
 ##### Work Completed work:
 ##### Accomplished: 
 ##### *Action Items*:
-
+____ 
 #### Meeting: 1/17/25 Attn(Zandra, Aarthi, Inderdeep, Jonathan)
   - Zandra => Shared design for app Presented Idea for creating a resume app
   - Aarthi => Shared ideas about adding a large language model to update model
@@ -19,6 +19,7 @@ Finalized project scope. We decided as a team that we would create an app that w
 ##### *Action Items*:
   - Zandra, Inderdeep => Refine user stories 
   - Aarthi => Research Chat function. Find out what data we would need to send to a LLM to get the results we want. 
+  - Jonathan: Work on Authentication. 
 ____
 
 #### Meeting: 1/10/25 Attn(Zandra, Aarthi, Inderdeep, Jonathan)
