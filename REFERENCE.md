@@ -31,6 +31,10 @@ List below the links and description
 
 #### MangoDB
 
+- Modeling:
+   
+  - Mongoose: [Intro to Mongoose fo MangoDB](https://www.freecodecamp.org/news/introduction-to-mongoose-for-mongodb-d2a7aa593c57/) 
+
 #### AI
 
 
