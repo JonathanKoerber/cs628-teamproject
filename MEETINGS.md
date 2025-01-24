@@ -1,10 +1,21 @@
 ## CS628 Full Stack Dev Meeting Minuets
 #### Teams: Zandra, Aarthi, Inderdeep, Jonathan
 
-#### Meeting: 1/24/25
-##### Work Completed work:
+#### Meeting: 1/24/25 Attn(Aathi, Jonathan, Zandra)
+##### Work Completed:
+  - Aarthi => Prof of concept research on how the app will interact with LLM
+  - Zandra => Refine user stories for the project. Review TP01.
+  - Jonathan => first draft of TP01
 ##### Accomplished: 
+Finalized a project idea. We will be creating an app that will allow user to create a resume with the help of large language 
+models. The dev repo is good to start working on. We need to finish the draft of TP01 to submit this weekend. We'd like to 
+have the app work with different llms potential running with in our docker compose dev deployment so that the dev process 
+is easier, and so we don't run out of free trie of llm service. 
+
 ##### *Action Items*:
+  - Aarthi => Update TP01
+  - Zandra => Update TP01, Create 
+  - Jonathan => finish implementing Auth
 ____ 
 #### Meeting: 1/17/25 Attn(Zandra, Aarthi, Inderdeep, Jonathan)
   - Zandra => Shared design for app Presented Idea for creating a resume app
