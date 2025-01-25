@@ -1,8 +1,5 @@
-version: '3.9'
 
-# Services
 services:
-  # Server service
   server:
     build:
       context: ./server
@@ -20,7 +17,6 @@ services:
     depends_on:
       - mongodb
 
-  # Client service
   client:
     build:
       context: ./client
@@ -36,7 +32,6 @@ services:
     depends_on:
       - server
 
-  # Database service
   mongodb:
     image: mongo:latest
     container_name: mongodb_server
@@ -49,6 +44,9 @@ services:
     volumes:
       - mydata:/data/db
 
-# Volumes define
 volumes:
   mydata:
+
+networks:
+  default:
+    driver: bridge
