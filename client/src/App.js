@@ -34,7 +34,9 @@ function App() {
          <Route path="/" element={<Layout />}>
                 <Route index element={<Home/>}/>
                 <Route path="profile" element={<Profile/>}/>
-                <Route path="resume" element={<Resume/>}/>
+                // Adding Authentication for Resume Page (User needs to be logged in)
+                <Route path="resume" element={authenticated ? <Resume /> : <Navigate to="/login" />} />
+                // <Route path="resume" element={<Resume/>}/>
                 <Route path="aires" element={<AIRes />}/>
                 <Route path="*" element={<NoPage/>}/>
               <Route path={"/login"} element={<Login/>}/>
