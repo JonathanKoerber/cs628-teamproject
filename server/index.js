@@ -17,12 +17,12 @@ mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopol
   .then(() => console.log('Connected to MongoDB'))
   .catch((error) => console.log('MongoDB connection error:', error));
 
-// Resume Schema
+// Resume Schema with validation
 const resumeSchema = new mongoose.Schema({
-  name: String,
-  email: String,
-  phone: String,
-  skills: String,
+  name: { type: String, required: true },
+  email: { type: String, required: true },
+  phone: { type: String, required: false },
+  skills: { type: String, required: true },
   education: String,
   projects: String,
 });
@@ -32,7 +32,7 @@ const Resume = mongoose.model('Resume', resumeSchema);
 // User Schema for authentication
 const userSchema = new mongoose.Schema({
   email: { type: String, unique: true },
-  password: String,
+  password: { type: String, required: true },
 });
 
 const User = mongoose.model('User', userSchema);
@@ -44,7 +44,7 @@ const authenticateJWT = (req, res, next) => {
   if (token) {
     jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
       if (err) {
-        return res.status(403).json({ message: 'Forbidden' });
+        return res.status(403).json({ message: 'Token expired or invalid' });
       }
       req.user = user;
       next();
@@ -97,6 +97,10 @@ app.post('/api/login', async (req, res) => {
 // POST: Save Resume
 app.post('/api/resume', authenticateJWT, async (req, res) => {
   const { name, email, phone, skills, education, projects } = req.body;
+
+  if (!name || !email || !skills) {
+    return res.status(400).json({ message: 'Name, email, and skills are required' });
+  }
 
   const newResume = new Resume({
     name,
