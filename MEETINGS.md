@@ -1,6 +1,14 @@
 ## CS628 Full Stack Dev Meeting Minuets
 #### Teams: Zandra, Aarthi, Inderdeep, Jonathan
 
+#### Meeting: 2/7/24 Attn(Aarthi, Inderdeep, Jonathan, Zandra
+
+#### Accomplished
+Establish best practice for working on code. Zandra and Aarthi explained that we need to work on feature branches 
+merge them into main on the remote. Jonathan showed the workflow to incorporate Redux into the system. We will need to 
+make a decision, we will need to make a decision. 
+
+
 #### Meeting": 1/30/25 Attn(Aarthi, Inderdeep, Jonathan, Zandra)
 ##### Assigned Fechures: 
 - Zandara => Questions about docker need to reinstall. Will work on home page.
