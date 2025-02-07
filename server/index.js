@@ -1,9 +1,12 @@
 const express = require('express');
+const mongoose = require('mongoose');
 const axios = require('axios');
 const cors = require('cors');
 
-const app = express();
+const app = express('dotenv').config();
 const port = 3001;
+const url = 'mongodb:admin@admiddn//localhost:27017/';
+const client = new MangoClient(url);
 
 app.use(cors());
 app.use(express.json());
