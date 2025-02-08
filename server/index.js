@@ -53,7 +53,7 @@ const authenticateJWT = (req, res, next) => {
     res.status(401).json({ message: 'Authorization token is required' });
   }
 };
-
+// ****************************************************<> User Longin <>******************************************************************
 // POST: Register a new user
 app.post('/api/register', async (req, res) => {
   const { email, password } = req.body;
@@ -93,7 +93,7 @@ app.post('/api/login', async (req, res) => {
     res.status(500).json({ message: 'Error during login', error });
   }
 });
-
+// *******************************************<>Resume<>*******************************************************************
 // POST: Save Resume
 app.post('/api/resume', authenticateJWT, async (req, res) => {
   const { name, email, phone, skills, education, projects } = req.body;
@@ -132,7 +132,7 @@ app.get('/api/resume', authenticateJWT, async (req, res) => {
 // PUT: Update a resume
 app.put('/api/resume/:id', authenticateJWT, async (req, res) => {
   const { name, email, phone, skills, education, projects } = req.body;
-  
+
   try {
     const updatedResume = await Resume.findByIdAndUpdate(req.params.id, {
       name,
@@ -168,6 +168,9 @@ app.delete('/api/resume/:id', authenticateJWT, async (req, res) => {
   }
 });
 
+// *****************************************************<> AI GEN <> ****************************************************************
+
+// *******************************************************<> <>*****************************************************************
 // Start server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
