@@ -13,9 +13,10 @@ app.use(cors());
 app.use(bodyParser.json());
 
 // MongoDB connection
-mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => console.log('Connected to MongoDB'))
-  .catch((error) => console.log('MongoDB connection error:', error));
+mongoose.connect(process.env.MONGO_URI)
+    .then(() => console.log('Connected to MongoDB'))
+    .catch((error) => console.log('MongoDB connection error:', error));
+
 
 // Resume Schema with validation
 const resumeSchema = new mongoose.Schema({
@@ -33,6 +34,8 @@ const Resume = mongoose.model('Resume', resumeSchema);
 const userSchema = new mongoose.Schema({
   email: { type: String, unique: true },
   password: { type: String, required: true },
+  username: { type: String, required: true },
+  createdAt: { type: Date, default: Date.now },
 });
 
 const User = mongoose.model('User', userSchema);
@@ -56,13 +59,17 @@ const authenticateJWT = (req, res, next) => {
 // ****************************************************<> User Longin <>******************************************************************
 // POST: Register a new user
 app.post('/api/register', async (req, res) => {
-  const { email, password } = req.body;
-
+  const { email, password, username } = req.body;
+  const user = await User.findOne({
+  $or: [{ email: email }, {username: username }]});
+  if(user){
+    return res.status(401).json({ message: 'Username or email already exists' });
+  }
   try {
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
-    const newUser = new User({ email, password: hashedPassword });
+    const newUser = new User({ email: email, password: hashedPassword, username: username });
     await newUser.save();
     res.status(201).json({ message: 'User registered successfully' });
   } catch (error) {
@@ -73,24 +80,25 @@ app.post('/api/register', async (req, res) => {
 // POST: User login
 app.post('/api/login', async (req, res) => {
   const { email, password } = req.body;
-
+  console.log(email, password);
   try {
     const user = await User.findOne({ email });
 
     if (!user) {
       return res.status(400).json({ message: 'User not found' });
     }
-
+    console.log(user)
     const isPasswordValid = await bcrypt.compare(password, user.password);
-
+    console.log(isPasswordValid)
     if (!isPasswordValid) {
       return res.status(400).json({ message: 'Invalid credentials' });
     }
 
     const token = jwt.sign({ email: user.email }, process.env.JWT_SECRET, { expiresIn: '1h' });
-    res.status(200).json({ message: 'Login successful', token });
+    console.log(token)
+    return res.status(200).json({ message: 'Login successful', token });
   } catch (error) {
-    res.status(500).json({ message: 'Error during login', error });
+    return res.status(500).json({ message: 'Error during login', error });
   }
 });
 // *******************************************<>Resume<>*******************************************************************
