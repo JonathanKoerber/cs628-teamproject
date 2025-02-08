@@ -34,6 +34,7 @@ List below the links and description
 - Modeling:
    
   - Mongoose: [Intro to Mongoose fo MangoDB](https://www.freecodecamp.org/news/introduction-to-mongoose-for-mongodb-d2a7aa593c57/) 
+  - command to access DB in docker: `sudo docker exec -it mongodb_server mongosh`
 
 #### AI
 
