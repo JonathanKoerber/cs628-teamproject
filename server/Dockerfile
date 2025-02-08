@@ -1,20 +1,21 @@
-# Select a lightweight base image
-FROM node:22-alpine3.20
+# Select a base image
+FROM  node:22-alpine3.20
 
-# Set the working directory
+# Create a directory  and go to directory
 WORKDIR /app
 
-# Copy package files
-COPY package.json package-lock.json ./
+# Copy the package.json file to my current directory for install necessary dependence
+COPY package.json .
 
-# Install dependencies
-RUN apk add --no-cache python3 make g++ gcc && npm install
+# Install the dependence
+RUN npm install
 
-# Copy application source code
+# Copy other file to my current directory
 COPY . .
 
-# Expose the application port
+
+# Open the port for express server
 EXPOSE 5000
 
-# Run the application
-CMD ["npm", "start"]
+# Run express rum in foreground
+CMD ["npm", "dev"]

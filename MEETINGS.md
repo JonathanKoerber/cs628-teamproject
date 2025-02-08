@@ -1,6 +1,34 @@
 ## CS628 Full Stack Dev Meeting Minuets
 #### Teams: Zandra, Aarthi, Inderdeep, Jonathan
 
+#### Meeting: 2/7/24 Attn(Aarthi, Inderdeep, Jonathan, Zandra
+
+#### Accomplished
+Establish best practice for working on code. Zandra and Aarthi explained that we need to work on feature branches 
+merge them into main on the remote. Jonathan showed the workflow to incorporate Redux into the system. We will need to 
+make a decision, we will need to make a decision. 
+
+
+#### Meeting": 1/30/25 Attn(Aarthi, Inderdeep, Jonathan, Zandra)
+##### Assigned Fechures: 
+- Zandara => Questions about docker need to reinstall. Will work on home page.
+- Aarthi => Questions about how to work with resume.
+- Inderdeep => Work on resume workflow.
+- Jonathan => Login and auth. 
+
+#### Accomplished:
+Create a context for our project. By next week we will need to understand how the résumé will live in the React app and how
+will that data object be passed to the LLM. We had a very productive discussion in this weeks meeting. A number of issue 
+were brought up that highlighted a number of issues that we will need to address. We decided to take an other week to create a plan 
+to address these issues. 
+
+##### *Action Items*
+- Aarthi => plan for how resume data will be passed to LLM
+- Inderdeep => plan for user flow entering resume data
+- Zandra => Create wireframes, design language for app
+- Jonathan => create sign in page, figure out implement JWT, create user page.  
+
+___
 #### Meeting: 1/24/25 Attn(Aathi, Jonathan, Zandra)
 ##### Work Completed:
   - Aarthi => Prof of concept research on how the app will interact with LLM
