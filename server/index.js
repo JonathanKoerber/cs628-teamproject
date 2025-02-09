@@ -1,23 +1,28 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const bodyParser = require('body-parser');
 const cors = require('cors');
 const dotenv = require('dotenv');
-const jwt = require('jsonwebtoken');
-const bcrypt = require('bcryptjs');
+const cookieParser = require("cookie-parser");
+const authRoute = require("./Routes/AuthRoute")
+
 
 dotenv.config();
 
 const app = express();
-app.use(cors());
-app.use(bodyParser.json());
+
+// cors middleware
+app.use(cors({
+  origin:  'http://localhost:3000',
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true,
+}));
 
 // MongoDB connection
 mongoose.connect(process.env.MONGO_URI)
     .then(() => console.log('Connected to MongoDB'))
     .catch((error) => console.log('MongoDB connection error:', error));
 
-
+// TODO create modle that will hold resume better.
 // Resume Schema with validation
 const resumeSchema = new mongoose.Schema({
   name: { type: String, required: true },
@@ -30,16 +35,7 @@ const resumeSchema = new mongoose.Schema({
 
 const Resume = mongoose.model('Resume', resumeSchema);
 
-// User Schema for authentication
-const userSchema = new mongoose.Schema({
-  email: { type: String, unique: true },
-  password: { type: String, required: true },
-  username: { type: String, required: true },
-  createdAt: { type: Date, default: Date.now },
-});
-
-const User = mongoose.model('User', userSchema);
-
+// TODO this can get remove as we are using cookies to authenticate
 // JWT authentication middleware
 const authenticateJWT = (req, res, next) => {
   const token = req.headers['authorization'];
@@ -56,10 +52,13 @@ const authenticateJWT = (req, res, next) => {
     res.status(401).json({ message: 'Authorization token is required' });
   }
 };
+
+// TODO this can get removed. auth is handled in Controllers/AuthControllers.js
 // ****************************************************<> User Longin <>******************************************************************
 // POST: Register a new user
 app.post('/api/register', async (req, res) => {
   const { email, password, username } = req.body;
+  console.log("request received")
   const user = await User.findOne({
   $or: [{ email: email }, {username: username }]});
   if(user){
@@ -76,7 +75,7 @@ app.post('/api/register', async (req, res) => {
     res.status(500).json({ message: 'Error registering user', error });
   }
 });
-
+// TODO can be removed
 // POST: User login
 app.post('/api/login', async (req, res) => {
   const { email, password } = req.body;
@@ -101,6 +100,8 @@ app.post('/api/login', async (req, res) => {
     return res.status(500).json({ message: 'Error during login', error });
   }
 });
+
+// TODO can be moved into a file in /Controllers
 // *******************************************<>Resume<>*******************************************************************
 // POST: Save Resume
 app.post('/api/resume', authenticateJWT, async (req, res) => {
@@ -176,11 +177,14 @@ app.delete('/api/resume/:id', authenticateJWT, async (req, res) => {
   }
 });
 
-// *****************************************************<> AI GEN <> ****************************************************************
+// Start server should stay here
 
-// *******************************************************<> <>*****************************************************************
-// Start server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+    console.log(`Server is running on port ${PORT}`);
 });
+app.use(cookieParser());
+app.use(express.json());
+
+// Routes
+app.use("/", authRoute)
