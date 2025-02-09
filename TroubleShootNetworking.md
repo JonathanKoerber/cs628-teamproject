@@ -30,7 +30,7 @@ network, but nonetheless, you can check by using creating interactive in the ind
 
 - for either the frontend ot backend
 
-    `sudo docker exec --intersudo docker exec --interactive --tty <name of continer backend || frontend> /bin/bash`
+    `sudo docker exec -it <name of continer backend || frontend> /bin/bash`
 
     example: 'check var with `printenv |  grep REACT_APP`
 - DB
@@ -72,6 +72,9 @@ network, but nonetheless, you can check by using creating interactive in the ind
 
 
 ### Backend
+
+you can use this script to call between the containers: 
+`curl -X POST http://server:5000/signup -H "Content-Type: application/json" -d '{"email": "user@example.com", "password": "pass", "username": "un"}' -v`
 
     .
     ├── Controlers

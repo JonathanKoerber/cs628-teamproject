@@ -1,25 +1,17 @@
-import React from 'react';
-import {useDispatch, useSelector} from "react-redux";
-import {Link, useNavigate, useNavigation} from "react-router-dom";
-import {clearUser, setUser} from "../features/user/userSlice";
-import {ToastContainer, toast } from "react-toastify";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import '../Style/Login.css'
+import { ToastContainer, toast } from "react-toastify";
 
 const Login = () => {
-    const [ inputValue, setInputValue] = React.useState(
-        {
-            email: "",
-            password: "",
-            username: "",
-        });
-    const dispatch = useDispatch();
-    const user = useSelector((state) => state.user);
-
-    const navigate = useNavigate()
-    const {email, password, username }= inputValue
+    const navigate = useNavigate();
+    const [inputValue, setInputValue] = useState({
+        email: "",
+        password: "",
+    });
+    const { email, password } = inputValue;
     const handleOnChange = (e) => {
-        const {name, value} = e.target;
+        const { name, value } = e.target;
         setInputValue({
             ...inputValue,
             [name]: value,
@@ -27,52 +19,56 @@ const Login = () => {
     };
     const handleError = (err) =>
         toast.error(err, {
-            position: "bottom-left"
-        })
+            position: "bottom-left",
+        });
     const handleSuccess = (msg) =>
         toast.success(msg, {
-            position: "bottom-right",
+            position: "bottom-left",
         });
+
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const api_url = "http://backend:5000/login";
-        console.log("api_url", api_url)
         try {
-            const { data } = await axios.post(api_url, {
-              ...inputValue
-            }, { withCredentials: true}
+
+            const { data } = await axios.post(
+                process.env.REACT_APP_AUTH_LOGIN,
+
+                {
+                    ...inputValue,
+                },
+                { withCredentials: true }
             );
-            const { success, message} = data;
-            console.log("success", success, "message", message)
-            if (success){
+            console.log(data);
+            const { success, message } = data;
+            if (success) {
                 handleSuccess(message);
                 setTimeout(() => {
-                    navigate("/")
-                }, 10000);
+                    navigate("/");
+                }, 1000);
             } else {
                 handleError(message);
             }
-        }catch (error){
-            // TODO implement error logging
-            console.log(error)
+        } catch (error) {
+            console.log(error);
         }
         setInputValue({
             ...inputValue,
+            email: "",
             password: "",
-            username: "",
-            email: ""
         });
     };
-
     return (
         <div className={"login-container"}>
             <div className="login">
-                <form className="login-form" onSubmit={handleSubmit}>
-                    <input className="login-input" type={"test"} name={"username"} placeholder={"Add username"}/>
+                <form className="login-form" onSubmit={handleSubmit} onChange={handleOnChange}>
                     <input className="login-input" type="text" name="email" placeholder="Enter your email"/>
                     <input className="login-input" type="password" name="password" placeholder="Password"/>
-                    <button className="login-button" type="submit">Register</button>
+                    <button className="login-button" type="submit">Login</button>
+                    <span>
+                    Don't have an account? <Link to={"/signup"}>Signup</Link>
+                </span>
                 </form>
+                <ToastContainer/>
             </div>
         </div>
     )
