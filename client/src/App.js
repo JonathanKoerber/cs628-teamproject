@@ -37,7 +37,7 @@ function App() {
                 {/* Adding Authentication for Resume Page (User needs to be logged in) */}
                 {/*<Route path="resume" element={authenticated ? <Resume /> : <Navigate to="/login" />} />*/}
                  <Route path="resume" element={<Resume/>}/>
-                <Route path="aires" element={<AIRes />}/>
+                ls<Route path="aires" element={<AIRes />}/>
                 <Route path="*" element={<NoPage/>}/>
               <Route path={"/login"} element={<Login/>}/>
             </Route>
