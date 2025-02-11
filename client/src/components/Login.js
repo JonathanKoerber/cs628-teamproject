@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 
-const Login = () => {
+const Login = ({toggleLogin}) => {
     const navigate = useNavigate();
     const [inputValue, setInputValue] = useState({
         email: "",
@@ -65,7 +65,11 @@ const Login = () => {
                     <input className="login-input" type="password" name="password" placeholder="Password"/>
                     <button className="login-button" type="submit">Login</button>
                     <span>
-                    Don't have an account? <Link to={"/signup"}>Signup</Link>
+                    Don't have an account? <span
+                        onClick={() => toggleLogin()}
+                        style={{color: "blue", cursor: "pointer", textDecoration: "underline"}}
+                    >
+                        Signup</span>
                 </span>
                 </form>
                 <ToastContainer/>

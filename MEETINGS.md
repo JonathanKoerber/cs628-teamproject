@@ -14,7 +14,7 @@ make a decision, we will need to make a decision.
 - Zandara => Questions about docker need to reinstall. Will work on home page.
 - Aarthi => Questions about how to work with resume.
 - Inderdeep => Work on resume workflow.
-- Jonathan => Login and auth. 
+- Jonathan => LoginPage and auth. 
 
 #### Accomplished:
 Create a context for our project. By next week we will need to understand how the résumé will live in the React app and how

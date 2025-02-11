@@ -6,7 +6,7 @@ import {ToastContainer, toast } from "react-toastify";
 import axios from "axios";
 import '../Style/Login.css'
 
-const Signup = () => {
+const Signup = ({toggleLogin}) => {
     const [ inputValue, setInputValue] = React.useState(
         {
             email: "",
@@ -86,14 +86,17 @@ const Signup = () => {
                     <input className="login-input" type="text" name="email" placeholder="Enter your email"/>
                     <input className="login-input" type="password" name="password" placeholder="Password"/>
                     <button className="login-button" type="submit">Sign Up</button>
-                <span>
-                    Already have an account? <Link to={"/login"}>Login</Link>
-                </span>
+                    <span>
+                    Already have an account? <span
+                        onClick={ () => toggleLogin() }
+                        style={{color: "blue", cursor: "pointer", textDecoration: "underline"}}
+                    >Login</span>
+                    </span>
                 </form>
-            <ToastContainer/>
+                <ToastContainer/>
             </div>
         </div>
-    )
+)
 }
 
 export default Signup;
