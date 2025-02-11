@@ -4,8 +4,8 @@ import {BrowserRouter, Routes, Route} from "react-router-dom";
 import AIRes from './pages/AIRes';
 import Home from './pages/Home';
 import Layout from './pages/Layout';
-import Login from './pages/Login';
-import Signup from "./pages/Signup";
+import LoginPage from './pages/LoginPage';
+import Signup from "./components/Signup";
 import NoPage from './pages/NoPage'
 import Profile from './pages/Profile';
 import Resume from './pages/Resume';
@@ -25,7 +25,7 @@ function App() {
                 <Route path="resume" element={<Resume/>}/>
                 <Route path="aires" element={<AIRes />}/>
                 <Route path={"/signup"} element={<Signup/>}/>
-                <Route path={"/login"} element={<Login/>}/>
+                <Route path={"/login"} element={<LoginPage/>}/>
                 <Route path="*" element={<NoPage/>}/>
             </Route>
         </Routes>

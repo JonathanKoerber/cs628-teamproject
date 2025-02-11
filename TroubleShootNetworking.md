@@ -57,7 +57,7 @@ network, but nonetheless, you can check by using creating interactive in the ind
     │   ├── AIRes.js
     │   ├── Home.js
     │   ├── Layout.js
-    │   ├── Login.js
+    │   ├── LoginPage.js
     │   ├── NoPage.js
     │   ├── Profile.js
     │   └── Resume.js
@@ -66,7 +66,7 @@ network, but nonetheless, you can check by using creating interactive in the ind
     ├── setupTests.js
     ├── store.js
     └── Style
-        └── Login.css
+        └── LoginPage.css
 
     
 
