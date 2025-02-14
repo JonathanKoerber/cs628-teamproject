@@ -3,7 +3,7 @@ import Login from "../components/Login";
 import Signup from "../components/Signup";
 
 const LoginPage = () => {
-    const [login, setLogin] = useState(false);
+    const [login, setLogin] = useState(true);
     const toggleLogin = () => setLogin((prev) => !prev);
 
 
