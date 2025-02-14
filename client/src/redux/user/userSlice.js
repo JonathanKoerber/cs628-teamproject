@@ -19,7 +19,6 @@ const userSlice = createSlice({
             state.id = action.payload.id;
             state.name = action.payload.name;
             state.email = action.payload.email;
-            state.isAuthenticated = true;
         },
 
         // Action to clear user data (e.g., after logout)
@@ -27,7 +26,6 @@ const userSlice = createSlice({
             state.id = null;
             state.name = '';
             state.email = '';
-            state.isAuthenticated = false;
         },
 
         // Action to update user's name (e.g., profile update)
