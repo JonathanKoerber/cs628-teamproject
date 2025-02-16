@@ -1,9 +1,8 @@
 import React from 'react';
 import {useDispatch, useSelector} from "react-redux";
-import {Link, useNavigate, useNavigation} from "react-router-dom";
-import {clearUser, setUser} from "../features/user/userSlice";
+import { useNavigate} from "react-router-dom";
 import {ToastContainer, toast } from "react-toastify";
-import axios from "axios";
+import {signupUser} from "../redux/user/authActions";
 import '../Style/Login.css'
 
 const Signup = ({toggleLogin}) => {
@@ -30,51 +29,41 @@ const Signup = ({toggleLogin}) => {
         toast.error(err, {
             position: "bottom-left"
         })
-    const handleSuccess = (msg) =>
+
+    const handleSuccess = (msg) => {
         toast.success(msg, {
             position: "bottom-right",
         });
-    const postValue = async () => {
-        try {
-            const {data} = await axios.post(
-                process.env.REACT_APP_AUTH_SIGNUP,
-                {
-                ...inputValue
-            });
-            const {success, message} = data;
-            return { success, message };  // Returning the object
-        } catch (error) {
-            console.error("Axios Error:", error);
-            if (error.response) {
-                console.error("Server responded with:", error.response.status, error.response.data);
-            } else if (error.request) {
-                console.error("No response received:", error.request);
-            } else {
-                console.error("Error setting up request:", error.message);
-            }
-        }
+        navigate('/');
     }
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        const result = await postValue(); // Await the result of the promise
-        if (result) {
-            const { success, message } = result;  // Destructure success and message here
-            if (success) {
-                handleSuccess(message);
-                setTimeout(() => {
-                    navigate("/");
-                }, 9999);
-            } else {
-                handleError(message);
-            }
-        }
+    const clearInputs = () =>{
         setInputValue({
             ...inputValue,
             password: "",
             username: "",
             email: ""
         });
+    }
+
+    const handleSubmit = (e) => {
+        if (!inputValue.email.length > 0 ||
+            !inputValue.username.length >  0 ||
+            !inputValue.password.length > 0) {
+            handleError("Fields are empty")
+        }else {
+            try {
+                const result = dispatch(signupUser({username: inputValue.username,
+                                                    email: inputValue.email,
+                                                    password: inputValue.password}))
+                const payload = result.unwrap()
+                console.log(payload)
+                handleSuccess("User successfully logged in successfully!")
+            } catch (err) {
+                handleError(err)
+                console.log("Signup Failed:", err)
+            }
+        }
+      clearInputs()
     };
 
 

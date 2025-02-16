@@ -1,61 +1,61 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
+import {loginUser} from "../redux/user/authActions";
 
 const Login = ({toggleLogin}) => {
-    const navigate = useNavigate();
     const [inputValue, setInputValue] = useState({
         email: "",
         password: "",
     });
     const { email, password } = inputValue;
+
+    const dispatch = useDispatch();
+    const navigate = useNavigate()
+
     const handleOnChange = (e) => {
         const { name, value } = e.target;
         setInputValue({
             ...inputValue,
             [name]: value,
         });
+        console.log(inputValue);
     };
     const handleError = (err) =>
         toast.error(err, {
             position: "bottom-left",
         });
-    const handleSuccess = (msg) =>
+    const handleSuccess = (msg) =>{
         toast.success(msg, {
             position: "bottom-left",
         });
+        clearInputs()
+        navigate('/');
+    }
+    const clearInputs = () =>{
+        setInputValue({
+            ...inputValue,
+            password: "",
+            email: ""
+        });
+    }
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        try {
+       if(!inputValue.email || !inputValue.password){
+           handleError("Email and password is required!");
+       }else{
+           try{
+               const result = dispatch(loginUser({password: inputValue.password,
+                                                        email: inputValue.email,}))
 
-            const { data } = await axios.post(
-                process.env.REACT_APP_AUTH_LOGIN,
+               handleSuccess("User logged in successfully!");
+           }catch(err) {
+               handleError(err)
+           }
+       }
 
-                {
-                    ...inputValue,
-                },
-                { withCredentials: true }
-            );
-            console.log(data);
-            const { success, message } = data;
-            if (success) {
-                handleSuccess(message);
-                setTimeout(() => {
-                    navigate("/");
-                }, 1000);
-            } else {
-                handleError(message);
-            }
-        } catch (error) {
-            console.log(error);
-        }
-        setInputValue({
-            ...inputValue,
-            email: "",
-            password: "",
-        });
     };
     return (
         <div className={"login-container"}>

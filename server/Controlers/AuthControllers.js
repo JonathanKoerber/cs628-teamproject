@@ -14,13 +14,14 @@ module.exports.Signup = async (req, res, next) => {
         const user = await User.create({ email, password, username});
         const token = createSecretToken(user._id);
         res.cookie("token", token, {
-          //  withCredentials: true,
+            withCredentials: true,
             sameSite: "strict",
             httpOnly: true,
         });
         res
             .status(201)
-            .json({ message: "User signed in successfully", success: true, user });
+            .json({ message: "User signed in successfully", success: true, user:{'username': username,
+                                                                                  'email': email}});
         next();
     } catch (error) {
         console.error(error);
@@ -46,7 +47,8 @@ module.exports.Login = async (req, res, next) => {
             withCredentials: true,
             httpOnly: true,
         });
-        res.status(200).json({ message: "User logged in successfully", success: true });
+        res.status(200).json({ message: "User logged in successfully", success: true, user:{'username': user.username,
+                                                                                        'email': user.email, }});
     } catch (error) {
         console.error(error);
         res.status(500).json({message: "Server error, please try again later"})
