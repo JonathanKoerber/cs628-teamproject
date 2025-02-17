@@ -1,47 +1,46 @@
 import {Outlet, Link, useNavigate} from "react-router-dom";
-import {useCookies} from "react-cookie";
-import {useEffect, useState} from "react";
-import axios from "axios";
+import {useEffect } from "react";
 import {toast} from "react-toastify";
+import {useDispatch, useSelector} from "react-redux";
+import {logout} from "../redux/user/authSlice";
+import { validateUser} from "../redux/user/authActions";
+import {setUser} from "../redux/user/userSlice";
+import Cookies from "js-cookie";
+import Signup from "../components/Signup";
+import LoginPage from "./LoginPage";
+//import {logout, verifyUser} from "../redux/user/authSlice";
 
 const Layout = () => {
-    const    navigate = useNavigate()
-    const [cookies, removeCookies] = useCookies([]);
-    const [username, setUsername ] = useState("")
+   const navigate = useNavigate();
+   const dispatch = useDispatch();
+   const isLoggedIn = useSelector(state => state.auth.isLoggedIn);
+   const username = useSelector(state => state.auth.username);
+   const message = useSelector(state => state.auth.message);
 
-    const Logout = () => {
-        removeCookies("token");
-        navigate("/login")
-    }
+   useEffect(() => {
+      if(message != null){
+          toast.error(message, {position: "top-right"})
+      }
+   }, [message])
 
     useEffect(() => {
-        const verifyCookies = async () => {
-            console.log("API URL:", process.env.REACT_APP_BASE); // Debugging Line
-            if (!cookies.token) {
-                console.log("user in not logged in")
-                navigate("/login");
-            }
+        const tokenFromCookie = Cookies.get("token");
+            dispatch(validateUser())
+                .unwrap()
+                .then((response) => {
+                    console.log("validate user success", response)
+            }).catch(err => {
+                // navigate('/login')
+            });  // Redirect if verification fails
+        // navigate("/")
+    }, [isLoggedIn, dispatch, navigate]);
 
-            try {
-                const { data } = await axios.post(
-                    process.env.REACT_APP_BASE, // Ensure it is correct
-                    {},
-                    { withCredentials: true }
-                );
+     const handleLogout = () => {
+        console.log("logout");
+        dispatch(logout());
+        navigate('/login');
+     }
 
-                const { status, user } = data;
-                setUsername(user);
-
-                return status
-                    ? toast(`Hello ${user}`, { position: "top-right" })
-                    : (removeCookies("token"), navigate("/login"));
-            } catch (error) {
-                console.error("Axios Error:", error);
-            }
-        };
-
-        verifyCookies().then();
-    }, [cookies, navigate, removeCookies]);
     return (
         <>
             <nav>
@@ -54,7 +53,9 @@ const Layout = () => {
                     <li><Link to="/not_a_rout">NoPage</Link></li>
                 </ul>
             </nav>
-
+            <button className={"login-button"} onClick={() =>handleLogout()}>logout</button>
+            <h2>{username ? username : "No User"}</h2>
+            <h2> {isLoggedIn ? "user logged in": "user not logged in"}</h2>
             <Outlet />
         </>
     )

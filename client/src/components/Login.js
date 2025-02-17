@@ -1,68 +1,58 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import {useDispatch, useSelector} from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
+import {loginUser} from "../redux/user/authActions";
 
 const Login = ({toggleLogin}) => {
-    const navigate = useNavigate();
     const [inputValue, setInputValue] = useState({
         email: "",
         password: "",
     });
+
     const { email, password } = inputValue;
+
+    const dispatch = useDispatch();
+    const navigate = useNavigate()
+
     const handleOnChange = (e) => {
         const { name, value } = e.target;
         setInputValue({
             ...inputValue,
             [name]: value,
         });
+        console.log(inputValue);
     };
-    const handleError = (err) =>
-        toast.error(err, {
-            position: "bottom-left",
+
+    const clearInputs = () =>{
+        setInputValue({
+            ...inputValue,
+            password: "",
+            email: ""
         });
-    const handleSuccess = (msg) =>
-        toast.success(msg, {
-            position: "bottom-left",
-        });
+    }
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        try {
+       if(!inputValue.email || !inputValue.password){
+           toast("Email and password is required!", {position: "bottom-right"});
+       }else{
+               dispatch(loginUser({
+                   password: inputValue.password,
+                   email: inputValue.email,})).unwrap().then((response)=>{
 
-            const { data } = await axios.post(
-                process.env.REACT_APP_AUTH_LOGIN,
-
-                {
-                    ...inputValue,
-                },
-                { withCredentials: true }
-            );
-            console.log(data);
-            const { success, message } = data;
-            if (success) {
-                handleSuccess(message);
-                setTimeout(() => {
-                    navigate("/");
-                }, 1000);
-            } else {
-                handleError(message);
-            }
-        } catch (error) {
-            console.log(error);
-        }
-        setInputValue({
-            ...inputValue,
-            email: "",
-            password: "",
-        });
+               }).catch(err=>{
+                   console.log("login", err)
+               })
+       }
+       clearInputs()
     };
     return (
         <div className={"login-container"}>
             <div className="login">
                 <form className="login-form" onSubmit={handleSubmit} onChange={handleOnChange}>
-                    <input className="login-input" type="text" name="email" placeholder="Enter your email"/>
-                    <input className="login-input" type="password" name="password" placeholder="Password"/>
+                    <input className="login-input" type="text" name="email" value={email} placeholder="Enter your email"/>
+                    <input className="login-input" type="password" name="password" value={password} placeholder="Password"/>
                     <button className="login-button" type="submit">Login</button>
                     <span>
                     Don't have an account? <span
