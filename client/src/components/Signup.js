@@ -1,7 +1,7 @@
 import React from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {Link, useNavigate, useNavigation} from "react-router-dom";
-import {clearUser, setUser} from "../features/user/userSlice";
+import {clearUser, setUser} from "../redux/user/userSlice";
 import {ToastContainer, toast } from "react-toastify";
 import axios from "axios";
 import '../Style/Login.css'
