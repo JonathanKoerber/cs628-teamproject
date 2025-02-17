@@ -6,31 +6,39 @@ import {logout} from "../redux/user/authSlice";
 import { validateUser} from "../redux/user/authActions";
 import {setUser} from "../redux/user/userSlice";
 import Cookies from "js-cookie";
+import Signup from "../components/Signup";
+import LoginPage from "./LoginPage";
 //import {logout, verifyUser} from "../redux/user/authSlice";
 
 const Layout = () => {
    const navigate = useNavigate();
    const dispatch = useDispatch();
    const isLoggedIn = useSelector(state => state.auth.isLoggedIn);
-   const user = useSelector(state => state.auth.user);
+   const username = useSelector(state => state.auth.username);
+   const message = useSelector(state => state.auth.message);
+
+   useEffect(() => {
+      if(message != null){
+          toast.error(message, {position: "top-right"})
+      }
+   }, [message])
 
     useEffect(() => {
         const tokenFromCookie = Cookies.get("token");
-        if (tokenFromCookie) {
-            // Only dispatch verifyUser if user is not logged in
             dispatch(validateUser())
                 .unwrap()
-                .catch(() => navigate('/login'));  // Redirect if verification fails
-        }else if(!isLoggedIn){
-          //  navigate('/login') Todo this function quite work.
-        }
+                .then((response) => {
+                    console.log("validate user success", response)
+            }).catch(err => {
+                // navigate('/login')
+            });  // Redirect if verification fails
+        // navigate("/")
     }, [isLoggedIn, dispatch, navigate]);
 
      const handleLogout = () => {
         console.log("logout");
         dispatch(logout());
         navigate('/login');
-        toast("User logged out", {position:"top-right"});
      }
 
     return (
@@ -46,8 +54,8 @@ const Layout = () => {
                 </ul>
             </nav>
             <button className={"login-button"} onClick={() =>handleLogout()}>logout</button>
-            <h2>{user ? user.username : "No User"}</h2>
-            <h2> {isLoggedIn ? "user lodded in": "user not logged in"}</h2>
+            <h2>{username ? username : "No User"}</h2>
+            <h2> {isLoggedIn ? "user logged in": "user not logged in"}</h2>
             <Outlet />
         </>
     )

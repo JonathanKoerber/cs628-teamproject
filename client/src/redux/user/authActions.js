@@ -24,6 +24,7 @@ export const signupUser = createAsyncThunk(
                 },
                 config
             )
+            console.log('Signup User', response.data)
             return response
         }catch(error){
             if (error.response && error.response.data) {
@@ -38,6 +39,7 @@ export const loginUser = createAsyncThunk(
     'auth/login',
     async({email, password}, {rejectWithValue}) => {
         console.log("loginUser Action", email, password);
+
         try{
             const config = {
                 headers:{
@@ -53,10 +55,11 @@ export const loginUser = createAsyncThunk(
                 },
             config
             );
-            console.log("login user Action **************");
-            console.log(response.unwrap())
+
+            console.log("loginUser", response.data);
             return response.data
         }catch(error){
+            console.log("loginUser", error.response && error.response.data);
             if (error.response && error.response.data) {
                 return rejectWithValue(error.response.data.message);
             }else{

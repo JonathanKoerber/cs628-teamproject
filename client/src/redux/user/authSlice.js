@@ -5,9 +5,11 @@ import Cookies from "js-cookie";
 
 const initialState =  {
     loading: false,
-    user: null,
+    email: null,
+    username: null,
     isLoggedIn: false,
     success: false,
+    error: false,
 }
 
 // auth slice
@@ -16,10 +18,12 @@ const authSlice = createSlice({
     initialState,
     reducers:{
         logout: (state) => {
-            state.user = null;
+            state.loading = false;
+            state.username = null;
+            state.email = null;
             state.isLoggedIn = false;
             state.success = false;
-            state.error = null;
+            state.message = "Hi You have been logging out.";
 
             Cookies.remove("token")
         },
@@ -29,37 +33,52 @@ const authSlice = createSlice({
             .addCase(signupUser.pending, (state) => {
                 state.loading = true;
                 state.error = null;
+                console.log("pending")
             })
             .addCase(signupUser.fulfilled, (state, {payload}) => {
                 state.loading = false;
-                state.user = payload.user;
+                state.userusername = payload.user.username;
+                state.email = payload.user.email;
                 state.isLoggedIn = true;
                 state.success = true;
+                console.log("payload", payload);
             })
             .addCase(signupUser.rejected, (state,{ payload} ) => {
                 state.loading = false
                 state.error = payload;
+                console.log("rejected payload", payload);
             })
             .addCase(loginUser.pending, (state) => {
                 state.loading = true;
-                state.error = null;
+                state.message = null;
             })
             .addCase(loginUser.fulfilled, (state, {payload}) => {
-                state.loading = false;
-                state.user = payload.user;
-                state.isLoggedIn = true;
-                state.success = true;
+                console.log("authSlice loginUser.fulfilled", payload);
+                if (payload.success === true) {
+                    state.loading = false;
+                    state.username = payload.user.username;
+                    state.email = payload.user.email;
+                    state.isLoggedIn = true;
+                    state.success = true;
+                    state.message = payload.message;
+                }else{
+                    state.loading = false;
+                    state.message = payload.message
+                    state.success = false;
+                }
             })
             .addCase(loginUser.rejected, (state, {payload}) => {
                 state.loading = false
-                state.error = payload
+                state.e = payload
             })
             .addCase(validateUser.pending, (state, action) => {
                 state.loading = true;
             })
             .addCase(validateUser.fulfilled, (state, {payload}) => {
-                state.user = payload.user
+                console.log("validate user", payload.user.username, payload.user.email)
                 state.loading = false;
+                state.username = payload.user.username;
+                state.email = payload.user.email;
                 state.isLoggedIn = true;
                 state.success = true;
             })

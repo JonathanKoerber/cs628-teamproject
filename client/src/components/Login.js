@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
 import {loginUser} from "../redux/user/authActions";
 
@@ -9,6 +9,7 @@ const Login = ({toggleLogin}) => {
         email: "",
         password: "",
     });
+
     const { email, password } = inputValue;
 
     const dispatch = useDispatch();
@@ -22,17 +23,7 @@ const Login = ({toggleLogin}) => {
         });
         console.log(inputValue);
     };
-    const handleError = (err) =>
-        toast.error(err, {
-            position: "bottom-left",
-        });
-    const handleSuccess = (msg) =>{
-        toast.success(msg, {
-            position: "bottom-left",
-        });
-        clearInputs()
-        navigate('/');
-    }
+
     const clearInputs = () =>{
         setInputValue({
             ...inputValue,
@@ -44,25 +35,24 @@ const Login = ({toggleLogin}) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
        if(!inputValue.email || !inputValue.password){
-           handleError("Email and password is required!");
+           toast("Email and password is required!", {position: "bottom-right"});
        }else{
-           try{
-               const result = dispatch(loginUser({password: inputValue.password,
-                                                        email: inputValue.email,}))
+               dispatch(loginUser({
+                   password: inputValue.password,
+                   email: inputValue.email,})).unwrap().then((response)=>{
 
-               handleSuccess("User logged in successfully!");
-           }catch(err) {
-               handleError(err)
-           }
+               }).catch(err=>{
+                   console.log("login", err)
+               })
        }
-
+       clearInputs()
     };
     return (
         <div className={"login-container"}>
             <div className="login">
                 <form className="login-form" onSubmit={handleSubmit} onChange={handleOnChange}>
-                    <input className="login-input" type="text" name="email" placeholder="Enter your email"/>
-                    <input className="login-input" type="password" name="password" placeholder="Password"/>
+                    <input className="login-input" type="text" name="email" value={email} placeholder="Enter your email"/>
+                    <input className="login-input" type="password" name="password" value={password} placeholder="Password"/>
                     <button className="login-button" type="submit">Login</button>
                     <span>
                     Don't have an account? <span
