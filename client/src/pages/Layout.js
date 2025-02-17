@@ -38,7 +38,6 @@ const Layout = () => {
      const handleLogout = () => {
         console.log("logout");
         dispatch(logout());
-        navigate('/login');
      }
 
     return (
@@ -55,7 +54,6 @@ const Layout = () => {
             </nav>
             <button className={"login-button"} onClick={() =>handleLogout()}>logout</button>
             <h2>{username ? username : "No User"}</h2>
-            <h2> {isLoggedIn ? "user logged in": "user not logged in"}</h2>
             <Outlet />
         </>
     )
