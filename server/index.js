@@ -4,6 +4,7 @@ const cors = require('cors');
 const dotenv = require('dotenv');
 const cookieParser = require("cookie-parser");
 const authRoute = require("./Routes/AuthRoute")
+const AIResumeRoutes = require("./Routes/AIResumeRoutes");
 
 
 dotenv.config();
@@ -188,3 +189,4 @@ app.use(express.json());
 
 // Routes
 app.use("/", authRoute)
+app.use("/api/airesume", AIResumeRoutes);

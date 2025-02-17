@@ -8,14 +8,14 @@ files, but you need to fill them with the values that are needed on your system.
 
 ##### required env files
     - Frontend: path ./client/.env
-        REACT_BASE=http://backend:5000/
-        REACT_AUTH=http://backend:5000/auth  
+        REACT_BASE=http://localhost:5000/
+        REACT_AUTH=http://localhost:5000/auth  
 
     - Backend: path ./server/.env
         MONGO_URI=mongodb://user:12345678@mongodb:27017/testdb?authSource=admin
         JWT_SECRET=<your-super-secret-jwt-key-here-dont-use-production>
         TOKEN_KEY=<token_key_dont_use_in_production>
-        REACT_FRONTEND=http://frontend:3000 
+        REACT_FRONTEND=http://localhost:3000 
     
     - Project: ./
         MONGODB_USER = 'user'

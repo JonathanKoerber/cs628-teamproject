@@ -38,6 +38,13 @@ List below the links and description
 
 #### AI
 
+Enriching Resume: Interview and Modify your Resume with Ollama and Langchain [ref] https://medium.com/@rezeliet/enriching-resume-interview-and-modify-your-resume-with-ollama-and-langchain-09aa462adff6
+
+- Gemini
+
+  -[gemini-1.5-flash]https://ai.google.dev/gemini-api/docs/models/gemini#gemini-1.5-flash
+
+  -[Text-generation] https://ai.google.dev/gemini-api/docs/text-generation?lang=rest
 
 
 #### Docker
