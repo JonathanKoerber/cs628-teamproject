@@ -1,7 +1,69 @@
 ## CS628 Full Stack Dev Meeting Minuets
 #### Teams: Zandra, Aarthi, Inderdeep, Jonathan
+                    
+#### Metting 2/21/25 Attn(Aathi, Inderdeep, Zandra, Jonathan)
 
-#### Meeting: 2/7/24 Attn(Aarthi, Inderdeep, Jonathan, Zandra
+Pre-read TO02
+
+Agenda:
+
+- Review TP02
+- Check that everyone has submitted there 
+
+
+
+#### Metting 2/14/25 Attn(Aarthi, Inderdeep, Zandra, Jonathan)
+
+Agenda: 
+- Make sure everyone has the application built (running on their local)
+- Agree on organization of app (model view controller)
+- What are people planning to accomplish by TP02, TP03
+- What is your timeframe 
+
+___
+Aarthi
+
+- Frontend:
+
+  -
+
+- Backend:
+
+  - Resume AI
+
+Inderdeep
+
+- Trouble shoot building the project localy
+
+Zandra
+
+- Trouble shoot building project local
+
+Jonathan:
+
+  - Frontend:
+    - Login, Signup, LoginPage,
+
+  - Backend :
+
+    - Model, Controller
+
+  - Build:
+    
+    - Docker build
+TP02 : draft
+    
+#### Accomplished
+We didn't accomplish much. Some of the group are still having issues building the project in their local env. There is 
+an error in the login page preventing users to run their section. TP02 is end of week seven. 
+
+##### *Action Items*                                                           
+- Aarthi => TP02 draft Thursday. Dev Resume AI.  
+- Inderdeep => TP02 draft Thursday build project
+- Zandra => TP02 draft. Build project             
+- Jonathan => Fix login page. 
+
+#### Meeting: 2/7/24 Attn(Aarthi, Inderdeep, Jonathan, Zandra)
 
 #### Accomplished
 Establish best practice for working on code. Zandra and Aarthi explained that we need to work on feature branches 

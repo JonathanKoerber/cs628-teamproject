@@ -11,10 +11,10 @@ const Resume = () => {
   const [skills, setSkills] = useState('');
   const [error, setError] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
-  const [resumes, setResumes] = useState([]); // Store fetched resumes
-  const [fetchError, setFetchError] = useState(''); // To handle fetch errors
-
-  // Fetch user's resumes when component mounts
+  const [resumes, setResumes] = useState([]);
+  const [fetchError, setFetchError] = useState('');
+  
+  // Fetch resumes on component mount
   useEffect(() => {
     const fetchResumes = async () => {
       try {
@@ -30,46 +30,59 @@ const Resume = () => {
     };
 
     fetchResumes();
-  }, []); // Empty dependency array means this runs only once when the component mounts
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // Validate required fields
     if (!name || !email || !skills) {
       setError('Name, email, and skills are required!');
       return;
     }
+    if (phone && !/^\d+$/.test(phone)) {
+      setError('Phone number should contain only numbers');
+      return;
+    }
 
     setError('');
-    setSuccessMessage(''); // Clear any previous success messages
+    setSuccessMessage('');
 
     const resumeData = { name, email, phone, education, projects, skills };
 
     try {
       await axios.post('http://localhost:5000/api/resume', resumeData, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('authToken')}`, // Assuming JWT is saved in localStorage
-        },
-      });
-      setSuccessMessage('Resume saved successfully!');
-      setName('');
-      setEmail('');
-      setPhone('');
-      setEducation('');
-      setProjects('');
-      setSkills('');
-      // Fetch resumes again after a successful save
-      const response = await axios.get('http://localhost:5000/api/resume', {
-        headers: {
           Authorization: `Bearer ${localStorage.getItem('authToken')}`,
         },
       });
-      setResumes(response.data);
+      setSuccessMessage('Resume saved successfully!');
+      resetForm();
+      fetchResumes();
     } catch (err) {
-      console.error(err);
       setError('Error saving resume');
     }
   };
+
+  // Reset form fields
+  const resetForm = () => {
+    setName('');
+    setEmail('');
+    setPhone('');
+    setEducation('');
+    setProjects('');
+    setSkills('');
+  };
+
+  // Handle success and error messages timeout
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setSuccessMessage('');
+      setError('');
+    }, 3000);
+
+    return () => clearTimeout(timer);
+  }, [successMessage, error]);
 
   const isFormValid = name && email && skills && !error;
 
@@ -77,11 +90,12 @@ const Resume = () => {
     <div className="resume-container">
       <h2>Create Your Resume</h2>
 
-      {/* Resume form */}
+      {/* Resume Form */}
       <form onSubmit={handleSubmit} className="resume-form">
         <div className="form-group">
-          <label>Name</label>
+          <label htmlFor="name">Name</label>
           <input
+            id="name"
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
@@ -89,8 +103,9 @@ const Resume = () => {
           />
         </div>
         <div className="form-group">
-          <label>Email</label>
+          <label htmlFor="email">Email</label>
           <input
+            id="email"
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
@@ -98,8 +113,9 @@ const Resume = () => {
           />
         </div>
         <div className="form-group">
-          <label>Phone</label>
+          <label htmlFor="phone">Phone</label>
           <input
+            id="phone"
             type="text"
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
@@ -107,24 +123,27 @@ const Resume = () => {
           />
         </div>
         <div className="form-group">
-          <label>Education</label>
+          <label htmlFor="education">Education</label>
           <textarea
+            id="education"
             value={education}
             onChange={(e) => setEducation(e.target.value)}
             placeholder="Your Education"
           />
         </div>
         <div className="form-group">
-          <label>Projects</label>
+          <label htmlFor="projects">Projects</label>
           <textarea
+            id="projects"
             value={projects}
             onChange={(e) => setProjects(e.target.value)}
             placeholder="Your Projects"
           />
         </div>
         <div className="form-group">
-          <label>Skills</label>
+          <label htmlFor="skills">Skills</label>
           <textarea
+            id="skills"
             value={skills}
             onChange={(e) => setSkills(e.target.value)}
             placeholder="Your Skills"
@@ -137,18 +156,21 @@ const Resume = () => {
         <button
           type="submit"
           className="submit-btn"
-          disabled={!isFormValid} // Disable button if form is invalid
+          disabled={!isFormValid}
         >
           Save Resume
         </button>
       </form>
 
-      {/* Display the fetched resumes */}
+      {/* Display Fetched Resumes */}
       <div className="resume-list">
         <h3>Your Saved Resumes</h3>
         {fetchError && <div className="error-message">{fetchError}</div>}
         {resumes.length === 0 ? (
-          <p>No resumes found.</p>
+          <div>
+            <p>No resumes found.</p>
+            <button onClick={() => setShowForm(true)}>Create New Resume</button>
+          </div>
         ) : (
           <ul>
             {resumes.map((resume) => (
