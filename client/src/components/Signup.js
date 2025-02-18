@@ -69,7 +69,7 @@ const Signup = ({toggleLogin}) => {
                 <ToastContainer/>
             </div>
         </div>
-)
-}
+)}
+
 
 export default Signup;
