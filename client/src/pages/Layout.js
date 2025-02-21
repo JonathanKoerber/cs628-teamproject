@@ -10,6 +10,7 @@ import Signup from "../components/Signup";
 import LoginPage from "./LoginPage";
 //import {logout, verifyUser} from "../redux/user/authSlice";
 import '../Style/Layout.css'; 
+import logo from '../assets/jazi_logo_removebg.png';
 
 const Layout = () => {
   const navigate = useNavigate();
