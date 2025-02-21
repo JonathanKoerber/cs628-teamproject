@@ -93,9 +93,7 @@ const Resume = () => {
 
   return (
 <div className="container-wrapper">
-       
-    <img src="" alt="Description of image" className="your-image-class" />
-
+    <Carousel />
     <div className="resume-container">
       <h2>Create Your Resume</h2>
       {/* Show the form conditionally based on showForm */}
