@@ -1,0 +1,57 @@
+/* src/Style/Layout.css */
+
+nav {
+  background-color: #57BADD;
+  padding: 10px 20px;
+  margin-bottom: 20px;
+  border-radius: 8px;
+}
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: space-around;
+}
+
+li {
+  display: inline;
+}
+
+a {
+  text-decoration: none;
+  color: white;
+  padding: 10px 20px;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+a:hover {
+  background-color: #555;
+  border-radius: 5px;
+}
+
+/* Style for the logout button */
+button.login-button {
+  background-color: #f44336;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 16px;
+  margin: 10px;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+button.login-button:hover {
+  background-color: #d32f2f;
+}
+
+/* Username display */
+h2 {
+  text-align: center;
+  font-size: 18px;
+  color: #333;
+}
