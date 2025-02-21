@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import '../Resume.css';
-import Button from '../components/Button';
+import '../Style/Resume.css';
 import Carousel from '../components/Carousel';
-import one from '../assets/res_one.png';
 
 
 const Resume = () => {
@@ -93,7 +91,9 @@ const Resume = () => {
 
   return (
 <div className="container-wrapper">
+  <div className='resume-container-left'>
     <Carousel />
+  </div>
     <div className="resume-container">
       <h2>Create Your Resume</h2>
       {/* Show the form conditionally based on showForm */}
