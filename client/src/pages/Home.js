@@ -13,7 +13,6 @@ export default function Home() {
   const navigate = useNavigate();
   return (
     <div>
-      <Navbar />
       <div className='main-container'>
         <div className='text-content'>
           <h1>{data.title}</h1>
