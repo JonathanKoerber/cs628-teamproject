@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import '../Resume.css';
+import Button from '../components/Button';
+import Carousel from '../components/Carousel';
+import one from '../assets/res_one.png';
+
 
 const Resume = () => {
   const [name, setName] = useState('');
@@ -13,23 +17,24 @@ const Resume = () => {
   const [successMessage, setSuccessMessage] = useState('');
   const [resumes, setResumes] = useState([]);
   const [fetchError, setFetchError] = useState('');
+  const [showForm, setShowForm] = useState(true); // Add state for showing form
   
   // Fetch resumes on component mount
-  useEffect(() => {
-    const fetchResumes = async () => {
-      try {
-        const response = await axios.get('http://localhost:5000/api/resume', {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('authToken')}`,
-          },
-        });
-        setResumes(response.data);
-      } catch (err) {
-        setFetchError('Error fetching resumes');
-      }
-    };
+  const fetchResumes = async () => { // Ensure fetchResumes is defined
+    try {
+      const response = await axios.get('http://localhost:5000/api/resume', {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+        },
+      });
+      setResumes(response.data);
+    } catch (err) {
+      setFetchError('Error fetching resumes');
+    }
+  };
 
-    fetchResumes();
+  useEffect(() => {
+    fetchResumes(); // Call fetchResumes when the component mounts
   }, []);
 
   const handleSubmit = async (e) => {
@@ -58,7 +63,7 @@ const Resume = () => {
       });
       setSuccessMessage('Resume saved successfully!');
       resetForm();
-      fetchResumes();
+      fetchResumes(); // Re-fetch the resumes after saving
     } catch (err) {
       setError('Error saving resume');
     }
@@ -87,80 +92,85 @@ const Resume = () => {
   const isFormValid = name && email && skills && !error;
 
   return (
+<div className="container-wrapper">
+       
+    <img src="" alt="Description of image" className="your-image-class" />
+
     <div className="resume-container">
       <h2>Create Your Resume</h2>
+      {/* Show the form conditionally based on showForm */}
+      {showForm && (
+        <form onSubmit={handleSubmit} className="resume-form">
+          <div className="form-group">
+            <label htmlFor="name">Name</label>
+            <input
+              id="name"
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="Your Name"
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="email">Email</label>
+            <input
+              id="email"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Your Email"
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="phone">Phone</label>
+            <input
+              id="phone"
+              type="text"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+              placeholder="Your Phone"
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="education">Education</label>
+            <textarea
+              id="education"
+              value={education}
+              onChange={(e) => setEducation(e.target.value)}
+              placeholder="Your Education"
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="projects">Projects</label>
+            <textarea
+              id="projects"
+              value={projects}
+              onChange={(e) => setProjects(e.target.value)}
+              placeholder="Your Projects"
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="skills">Skills</label>
+            <textarea
+              id="skills"
+              value={skills}
+              onChange={(e) => setSkills(e.target.value)}
+              placeholder="Your Skills"
+            />
+          </div>
 
-      {/* Resume Form */}
-      <form onSubmit={handleSubmit} className="resume-form">
-        <div className="form-group">
-          <label htmlFor="name">Name</label>
-          <input
-            id="name"
-            type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            placeholder="Your Name"
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="email">Email</label>
-          <input
-            id="email"
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="Your Email"
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="phone">Phone</label>
-          <input
-            id="phone"
-            type="text"
-            value={phone}
-            onChange={(e) => setPhone(e.target.value)}
-            placeholder="Your Phone"
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="education">Education</label>
-          <textarea
-            id="education"
-            value={education}
-            onChange={(e) => setEducation(e.target.value)}
-            placeholder="Your Education"
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="projects">Projects</label>
-          <textarea
-            id="projects"
-            value={projects}
-            onChange={(e) => setProjects(e.target.value)}
-            placeholder="Your Projects"
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="skills">Skills</label>
-          <textarea
-            id="skills"
-            value={skills}
-            onChange={(e) => setSkills(e.target.value)}
-            placeholder="Your Skills"
-          />
-        </div>
+          {error && <div className="error-message">{error}</div>}
+          {successMessage && <div className="success-message">{successMessage}</div>}
 
-        {error && <div className="error-message">{error}</div>}
-        {successMessage && <div className="success-message">{successMessage}</div>}
-
-        <button
-          type="submit"
-          className="submit-btn"
-          disabled={!isFormValid}
-        >
-          Save Resume
-        </button>
-      </form>
+          <button
+            type="submit"
+            className="submit-btn"
+            disabled={!isFormValid}
+          >
+            Save Resume
+          </button>
+        </form>
+      )}
 
       {/* Display Fetched Resumes */}
       <div className="resume-list">
@@ -169,7 +179,7 @@ const Resume = () => {
         {resumes.length === 0 ? (
           <div>
             <p>No resumes found.</p>
-            <button onClick={() => setShowForm(true)}>Create New Resume</button>
+            <button className="submit-btn" onClick={() => setShowForm(true)}>Create New Resume</button>
           </div>
         ) : (
           <ul>
@@ -187,6 +197,7 @@ const Resume = () => {
         )}
       </div>
     </div>
+</div>
   );
 };
 
