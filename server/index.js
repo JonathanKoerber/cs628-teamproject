@@ -102,7 +102,7 @@ const Resume = mongoose.model('Resume', resumeSchema);
 //   }
 // });
 
-POST: Save Resume
+// POST: Save Resume
 app.post('/api/resume', authenticateJWT, async (req, res) => {
   const { name, email, phone, skills, education, projects } = req.body;
 
