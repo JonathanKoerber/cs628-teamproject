@@ -102,83 +102,79 @@ const Resume = mongoose.model('Resume', resumeSchema);
 //   }
 // });
 
-// TODO can be moved into a file in /Controllers
-// *******************************************<>Resume<>*******************************************************************
-// POST: Save Resume
-// app.post('/api/resume', authenticateJWT, async (req, res) => {
-//   const { name, email, phone, skills, education, projects } = req.body;
+POST: Save Resume
+app.post('/api/resume', authenticateJWT, async (req, res) => {
+  const { name, email, phone, skills, education, projects } = req.body;
 
-//   if (!name || !email || !skills) {
-//     return res.status(400).json({ message: 'Name, email, and skills are required' });
-//   }
-//
-//   const newResume = new Resume({
-//     name,
-//     email,
-//     phone,
-//     skills,
-//     education,
-//     projects,
-//   });
-//
-//   try {
-//     await newResume.save();
-//     res.status(201).json({ message: 'Resume saved successfully' });
-//   } catch (error) {
-//     res.status(500).json({ message: 'Error saving resume', error });
-//   }
-// });
-//
-// // GET: Fetch all resumes for logged-in user
-// app.get('/api/resume', authenticateJWT, async (req, res) => {
-//   try {
-//     const resumes = await Resume.find({ email: req.user.email });
-//     res.status(200).json(resumes);
-//   } catch (error) {
-//     res.status(500).json({ message: 'Error fetching resumes', error });
-//   }
-// });
-//
-// // PUT: Update a resume
-// app.put('/api/resume/:id', authenticateJWT, async (req, res) => {
-//   const { name, email, phone, skills, education, projects } = req.body;
-//
-//   try {
-//     const updatedResume = await Resume.findByIdAndUpdate(req.params.id, {
-//       name,
-//       email,
-//       phone,
-//       skills,
-//       education,
-//       projects,
-//     }, { new: true });
-//
-//     if (!updatedResume) {
-//       return res.status(404).json({ message: 'Resume not found' });
-//     }
-//
-//     res.status(200).json(updatedResume);
-//   } catch (error) {
-//     res.status(500).json({ message: 'Error updating resume', error });
-//   }
-// });
-//
-// // DELETE: Delete a resume
-// app.delete('/api/resume/:id', authenticateJWT, async (req, res) => {
-//   try {
-//     const deletedResume = await Resume.findByIdAndDelete(req.params.id);
-//
-//     if (!deletedResume) {
-//       return res.status(404).json({ message: 'Resume not found' });
-//     }
-//
-//     res.status(200).json({ message: 'Resume deleted successfully' });
-//   } catch (error) {
-//     res.status(500).json({ message: 'Error deleting resume', error });
-//   }
-// });
+  if (!name || !email || !skills) {
+    return res.status(400).json({ message: 'Name, email, and skills are required' });
+  }
 
-// Start server should stay here
+  const newResume = new Resume({
+    name,
+    email,
+    phone,
+    skills,
+    education,
+    projects,
+  });
+
+  try {
+    await newResume.save();
+    res.status(201).json({ message: 'Resume saved successfully' });
+  } catch (error) {
+    res.status(500).json({ message: 'Error saving resume', error });
+  }
+});
+
+// GET: Fetch all resumes for logged-in user
+app.get('/api/resume', authenticateJWT, async (req, res) => {
+  try {
+    const resumes = await Resume.find({ email: req.user.email });
+    res.status(200).json(resumes);
+  } catch (error) {
+    res.status(500).json({ message: 'Error fetching resumes', error });
+  }
+});
+
+// PUT: Update a resume
+app.put('/api/resume/:id', authenticateJWT, async (req, res) => {
+  const { name, email, phone, skills, education, projects } = req.body;
+
+  try {
+    const updatedResume = await Resume.findByIdAndUpdate(req.params.id, {
+      name,
+      email,
+      phone,
+      skills,
+      education,
+      projects,
+    }, { new: true });
+
+    if (!updatedResume) {
+      return res.status(404).json({ message: 'Resume not found' });
+    }
+
+    res.status(200).json(updatedResume);
+  } catch (error) {
+    res.status(500).json({ message: 'Error updating resume', error });
+  }
+});
+
+// DELETE: Delete a resume
+app.delete('/api/resume/:id', authenticateJWT, async (req, res) => {
+  try {
+    const deletedResume = await Resume.findByIdAndDelete(req.params.id);
+
+    if (!deletedResume) {
+      return res.status(404).json({ message: 'Resume not found' });
+    }
+
+    res.status(200).json({ message: 'Resume deleted successfully' });
+  } catch (error) {
+    res.status(500).json({ message: 'Error deleting resume', error });
+  }
+});
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {

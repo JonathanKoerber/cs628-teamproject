@@ -24,8 +24,7 @@ function App() {
                 <Route path="profile" element={<Profile/>}/>
                 <Route path="resume" element={<Resume/>}/>
                 <Route path="aires" element={<AIRes />}/>
-                <Route path={"/signup"} element={<Signup/>}/>
-                <Route path={"/login"} element={<LoginPage/>}/>
+                <Route path={"/signup"} element={<LoginPage/>}/>
                 <Route path="*" element={<NoPage/>}/>
             </Route>
         </Routes>
