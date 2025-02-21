@@ -23,9 +23,9 @@ body {
 
 /* Left Container */
 .resume-container-left {
-  padding: 10px;
-  max-width: 200px;
-  background-color: #1111; 
+  padding-left: 50px;
+  padding-top: 50px;
+  max-width: 600px; 
   border-radius: 8px;
   margin: 4px;
 }
@@ -33,7 +33,7 @@ body {
 /* Right Container */
 .resume-container {
   padding: 10px;
-  background-color: #4ab8dd; /* Background for the right container */
+  /*background-color: #4ab8dd; /* Background for the right container */
   border-radius: 8px;
   max-width: 800px;
 
@@ -76,7 +76,7 @@ padding: 10px;
 label {
   font-weight: bold;
   font-size: 1.3rem;
-  width: 150px; /* Set a fixed width for the labels */
+  width: 100px; /* Set a fixed width for the labels */
   margin-right: 20px; /* Space between the label and the input */
 }
 
