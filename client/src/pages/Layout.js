@@ -9,7 +9,7 @@ import Cookies from "js-cookie";
 import Signup from "../components/Signup";
 import LoginPage from "./LoginPage";
 //import {logout, verifyUser} from "../redux/user/authSlice";
-import '../Style/Layout.css'; 
+import '../Style/Layout.css';
 import logo from '../assets/jazi_logo_removebg.png';
 
 const Layout = () => {
@@ -45,13 +45,13 @@ const Layout = () => {
     <>
       <div className="nav-container">
         <nav className="navbar">
-       
+
           <Link to="/">
             <img src={logo} alt='Jazi AI Resume logo' className='logo' />
 
           </Link>
 
-          
+
           <div className="right-nav">
             <ul>
               <li><Link to="/">Home</Link></li>
@@ -67,7 +67,6 @@ const Layout = () => {
               ) : (
                 <>
                   <li><Link to="/signup">Sign Up</Link></li>
-                  <li><Link to="/login">Login</Link></li>
                 </>
               )}
             </ul>

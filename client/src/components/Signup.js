@@ -58,7 +58,7 @@ const Signup = ({toggleLogin}) => {
                     <input className="login-input" type={"test"} name={"username"}value={username} placeholder={"Add username"}/>
                     <input className="login-input" type="text" name="email" placeholder="Enter your email" value={email}/>
                     <input className="login-input" type="password" name="password" placeholder="Password" value={password}/>
-                    <button className="login-button" type="submit">Sign Up</button>
+                    <button className="login-button" type="submit">Signup</button>
                     <span>
                     Already have an account? <span
                         onClick={ () => toggleLogin() }
