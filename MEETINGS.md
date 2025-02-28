@@ -1,6 +1,19 @@
 ## CS628 Full Stack Dev Meeting Minuets
 #### Teams: Zandra, Aarthi, Inderdeep, Jonathan
-                    
+
+#### Metting 2/28/25 Attn(Aathi, Inderdeep, Zandra, Jonathan)  
+agenda: 
+-review plan for pt tp03
+
+things that need to get done: 
+ 
+- Review Logic of Nav bar
+- Connect resume with database
+- Create Resume model
+- Create Routes for saving resume
+- Look into Creating reume component display with diffrent style.
+- Create a profile page
+
 #### Metting 2/21/25 Attn(Aathi, Inderdeep, Zandra, Jonathan)
 
 Pre-read TO02
@@ -9,8 +22,6 @@ Agenda:
 
 - Review TP02
 - Check that everyone has submitted there 
-
-
 
 #### Metting 2/14/25 Attn(Aarthi, Inderdeep, Zandra, Jonathan)
 
