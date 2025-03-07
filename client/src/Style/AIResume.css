@@ -1,0 +1,105 @@
+.ai-resume-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.ai-resume-title {
+    text-align: center;
+    color: #333;
+}
+
+
+
+.ai-resume-form {
+    margin-bottom: 20px;
+}
+
+.ai-resume-file-input {
+    margin-bottom: 10px;
+    display: block;
+}
+
+.ai-resume-textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.ai-resume-submit-button {
+    padding: 10px 20px;
+    background-color: #09f;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.ai-resume-submit-button.disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+.ai-resume-loading {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.spinner {
+    border: 4px solid rgba(0, 0, 0, 0.1);
+    border-left-color: #09f;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+    margin: 0 auto;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.ai-resume-analysis-pdf-container {
+    display: flex;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+@media (max-width: 768px) {
+    .ai-resume-analysis-pdf-container {
+        flex-direction: column;
+    }
+}
+
+.ai-resume-analysis-section {
+    flex: 1;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    height: 700px;
+    overflow-y: auto;
+}
+
+.ai-resume-analysis-content {
+    line-height: 1.6;
+}
+
+.ai-resume-pdf-section {
+    flex: 1;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    height: 700px;
+}
+
+.ai-resume-iframe {
+    width: 100%;
+    height: 90%;
+    border: none;
+}

@@ -1,9 +1,11 @@
 const mongoose = require("mongoose");
 
 const AIResumeSchema = new mongoose.Schema({
+    name: { type: String, default: "" },
+    email: { type: String, default: "" },
+    resumePath: { type: String, required: true },
     jobDescription: { type: String, default: "" },
-    profileSummary: { type: String, required: true },
-    enhancedSummary: { type: String, required: true }
+    analysis: { type: String, default: "" },
 });
 
 module.exports = mongoose.model("AIResume", AIResumeSchema);
