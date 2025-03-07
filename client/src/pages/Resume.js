@@ -2,7 +2,9 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import '../Style/Resume.css';
 import Carousel from '../components/Carousel';
+import DisplayResume from "../components/DisplayResume";
 import ResumeList from '../components/ResumeList';
+
 
 const Resume = () => {
   // States for the form fields

@@ -4,8 +4,6 @@ const bcrypt = require("bcryptjs");
 
 module.exports.Signup = async (req, res, next) => {
     try {
-        console.log("************************************************")
-        console.log(req)
         const { email, password, username } = req.body;
         const existingUser = await User.findOne({ email });
         if (existingUser) {
@@ -52,5 +50,16 @@ module.exports.Login = async (req, res, next) => {
     } catch (error) {
         console.error(error);
         res.status(500).json({message: "Server error, please try again later"})
+    }
+}
+
+module.exports.GetUserInfo = async (req, res) => {
+    try{
+        const user = req.user;
+        user.delete('password');
+        console.log("user", user)
+        res.status(200).json(user);
+    }catch (error) {
+        res.status(500).json({message: "User not found please login"})
     }
 }

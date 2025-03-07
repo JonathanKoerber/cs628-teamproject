@@ -1,6 +1,48 @@
-import React from "react";
+import React from 'react';
+import { useGetResumesQuery} from '../redux/resume/resumeSlice';
+import { useSelector } from 'react-redux';
+import ResumeCard from '../components/ResumeCard'; // Component to display individual resume
 
-const Profile = () => {
-    return <h1>Profile Page</h1>;
-}
-export default Profile;
+const ProfilePage = () => {
+    const user = useSelector(state => state.auth.username)
+    const isLoggedIn = useSelector(state => state.auth.isLoggedIn)
+    const email = useSelector(state => state.auth.email)
+    // Fetching resumes using RTK Query hook
+    const { data: resumes, error: resumesError, isLoading: resumesLoading } = useGetResumesQuery();
+
+    if (user.isLoggedIn || resumesLoading) {
+        return <div>Loading...</div>;
+    }
+    if (resumesError) {
+        return <div>Error loading resumes.</div>;
+    }
+    console.log("resumes", resumes)
+    return (
+        <div className="profile-page">
+            {/* User Details */}
+            {user && (
+                <div className="user-details">
+                    <h1>{user}</h1>
+                    <p>Email: {email}</p>
+                    <p>Phone: {}</p>
+                    <p>LinkedIn: <a href={user.linkedin} target="_blank" rel="noopener noreferrer">{user.linkedin}</a></p>
+                    <p>GitHub: <a href={user.github} target="_blank" rel="noopener noreferrer">{user.github}</a></p>
+                </div>
+            )}
+
+            {/* User Resumes */}
+            <div className="user-resumes">
+                <h2>My Resumes</h2>
+                {resumes && resumes.length === 0 ? (
+                    <p>No resumes found.</p>
+                ) : (
+                    resumes.map((resume) => (
+                        <ResumeCard key={resume._id} resume={resume} />
+                    ))
+                )}
+            </div>
+        </div>
+    );
+};
+
+export default ProfilePage;

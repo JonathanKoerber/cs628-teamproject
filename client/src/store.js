@@ -1,15 +1,18 @@
 import {configureStore} from "@reduxjs/toolkit";
 import {userReducer} from "./redux/user/userSlice";
-import {authReducer} from "./redux/user/authSlice";
-import { resumeReducer } from "./redux/user/resumeSlice";
+import {authReducer} from "./redux/auth/authSlice";
+import {resumeApi} from "./redux/resume/resumeSlice";
+
 
 
 const store = configureStore({
     reducer:{
-        // user: userReducer,
         auth: authReducer,
-        resume: resumeReducer,
-    }
+        [resumeApi.reducerPath]: resumeApi.reducer,
+        // user: userReducer,
+    },
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(resumeApi.middleware),
+
 })
 
 export default store;
