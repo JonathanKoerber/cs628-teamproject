@@ -3,23 +3,38 @@ import axios from 'axios';
 import '../Style/Resume.css';
 import Carousel from '../components/Carousel';
 import DisplayResume from "../components/DisplayResume";
+import ResumeList from '../components/ResumeList';
 
 
 const Resume = () => {
+  // States for the form fields
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
-  const [education, setEducation] = useState('');
-  const [projects, setProjects] = useState('');
+  const [location, setLocation] = useState('');
+  const [linkedin, setLinkedin] = useState('');
+  const [github, setGithub] = useState('');
+  const [summary, setSummary] = useState('');
+  const [experience, setExperience] = useState([{
+    title: '',
+    company: '',
+    location: '',
+    start_date: '',
+    end_date: '',
+    responsibilities: [''],
+  }]);
+  const [education, setEducation] = useState([{ degree: '', institution: '', graduation_year: '' }]);
   const [skills, setSkills] = useState('');
+  const [certifications, setCertifications] = useState([{ name: '', year: '' }]);
+  const [projects, setProjects] = useState([{ name: '', description: '', technologies: [''] }]);
   const [error, setError] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
   const [resumes, setResumes] = useState([]);
   const [fetchError, setFetchError] = useState('');
-  const [showForm, setShowForm] = useState(true); // Add state for showing form
-  
+  const [showForm, setShowForm] = useState(true); // Show the form
+
   // Fetch resumes on component mount
-  const fetchResumes = async () => { // Ensure fetchResumes is defined
+  const fetchResumes = async () => {
     try {
       const response = await axios.get('http://localhost:5000/api/resume', {
         headers: {
@@ -44,15 +59,26 @@ const Resume = () => {
       setError('Name, email, and skills are required!');
       return;
     }
-    if (phone && !/^\d+$/.test(phone)) {
-      setError('Phone number should contain only numbers');
-      return;
-    }
 
     setError('');
     setSuccessMessage('');
 
-    const resumeData = { name, email, phone, education, projects, skills };
+    const resumeData = {
+      name,
+      contact: {
+        email,
+        phone,
+        location,
+        linkedin,
+        github
+      },
+      summary,
+      experience,
+      education,
+      skills,
+      certifications,
+      projects
+    };
 
     try {
       await axios.post('http://localhost:5000/api/resume', resumeData, {
@@ -73,9 +99,15 @@ const Resume = () => {
     setName('');
     setEmail('');
     setPhone('');
-    setEducation('');
-    setProjects('');
+    setLocation('');
+    setLinkedin('');
+    setGithub('');
+    setSummary('');
+    setExperience([{ title: '', company: '', location: '', start_date: '', end_date: '', responsibilities: [''] }]);
+    setEducation([{ degree: '', institution: '', graduation_year: '' }]);
     setSkills('');
+    setCertifications([{ name: '', year: '' }]);
+    setProjects([{ name: '', description: '', technologies: [''] }]);
   };
 
   // Handle success and error messages timeout
@@ -90,113 +122,324 @@ const Resume = () => {
 
   const isFormValid = name && email && skills && !error;
 
+  // Add a new experience entry
+  const handleExperienceChange = (index, e) => {
+    const updatedExperience = [...experience];
+    updatedExperience[index][e.target.name] = e.target.value;
+    setExperience(updatedExperience);
+  };
+
+  // Add a new education entry
+  const handleEducationChange = (index, e) => {
+    const updatedEducation = [...education];
+    updatedEducation[index][e.target.name] = e.target.value;
+    setEducation(updatedEducation);
+  };
+
+  // Add a new certification entry
+  const handleCertificationChange = (index, e) => {
+    const updatedCertifications = [...certifications];
+    updatedCertifications[index][e.target.name] = e.target.value;
+    setCertifications(updatedCertifications);
+  };
+
+  // Add a new project entry
+  const handleProjectChange = (index, e) => {
+    const updatedProjects = [...projects];
+    updatedProjects[index][e.target.name] = e.target.value;
+    setProjects(updatedProjects);
+  };
+
+  // Add a new responsibility in experience
+  const handleResponsibilityChange = (index, e, responsibilityIndex) => {
+    const updatedExperience = [...experience];
+    updatedExperience[index].responsibilities[responsibilityIndex] = e.target.value;
+    setExperience(updatedExperience);
+  };
+
+  // Handle dynamic input for experience, education, certifications, and projects
+  const addExperience = () => {
+    setExperience([
+      ...experience,
+      { title: '', company: '', location: '', start_date: '', end_date: '', responsibilities: [''] },
+    ]);
+  };
+
+  const addEducation = () => {
+    setEducation([...education, { degree: '', institution: '', graduation_year: '' }]);
+  };
+
+  const addCertification = () => {
+    setCertifications([...certifications, { name: '', year: '' }]);
+  };
+
+  const addProject = () => {
+    setProjects([...projects, { name: '', description: '', technologies: [''] }]);
+  };
+
+  const isFormValid = name && email && skills && !error;
+
   return (
-<div className="container-wrapper">
-  <div className='resume-container-left'>
-    <Carousel />
-  </div>
-    <div className="resume-container">
-      <h2>Create Your Resume</h2>
-      {/* Show the form conditionally based on showForm */}
-      {showForm && (
-        <form onSubmit={handleSubmit} className="resume-form">
-          <div className="form-group">
-            <label htmlFor="name">Name</label>
-            <input
-              id="name"
-              type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              placeholder="Your Name"
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="email">Email</label>
-            <input
-              id="email"
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="Your Email"
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="phone">Phone</label>
-            <input
-              id="phone"
-              type="text"
-              value={phone}
-              onChange={(e) => setPhone(e.target.value)}
-              placeholder="Your Phone"
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="education">Education</label>
-            <textarea
-              id="education"
-              value={education}
-              onChange={(e) => setEducation(e.target.value)}
-              placeholder="Your Education"
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="projects">Projects</label>
-            <textarea
-              id="projects"
-              value={projects}
-              onChange={(e) => setProjects(e.target.value)}
-              placeholder="Your Projects"
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="skills">Skills</label>
-            <textarea
-              id="skills"
-              value={skills}
-              onChange={(e) => setSkills(e.target.value)}
-              placeholder="Your Skills"
-            />
-          </div>
+    <div className="container-wrapper">
+      <div className='resume-container-left'>
+        <Carousel />
+      </div>
+      <div className="resume-container">
+        <h2>Create Your Resume</h2>
+        {/* Show the form conditionally based on showForm */}
+        {showForm && (
+          <form onSubmit={handleSubmit} className="resume-form">
+            <div className="form-group">
+              <label htmlFor="name">Name</label>
+              <input
+                id="name"
+                type="text"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                placeholder="Your Name"
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="email">Email</label>
+              <input
+                id="email"
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Your Email"
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="phone">Phone</label>
+              <input
+                id="phone"
+                type="text"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+                placeholder="Your Phone"
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="location">Location</label>
+              <input
+                id="location"
+                type="text"
+                value={location}
+                onChange={(e) => setLocation(e.target.value)}
+                placeholder="Your Location"
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="linkedin">LinkedIn</label>
+              <input
+                id="linkedin"
+                type="text"
+                value={linkedin}
+                onChange={(e) => setLinkedin(e.target.value)}
+                placeholder="Your LinkedIn"
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="github">GitHub</label>
+              <input
+                id="github"
+                type="text"
+                value={github}
+                onChange={(e) => setGithub(e.target.value)}
+                placeholder="Your GitHub"
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="summary">Summary</label>
+              <textarea
+                id="summary"
+                value={summary}
+                onChange={(e) => setSummary(e.target.value)}
+                placeholder="Summary"
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="skills">Skills</label>
+              <textarea
+                id="skills"
+                value={skills}
+                onChange={(e) => setSkills(e.target.value)}
+                placeholder="Your Skills"
+              />
+            </div>
 
-          {error && <div className="error-message">{error}</div>}
-          {successMessage && <div className="success-message">{successMessage}</div>}
+            {/* Experience */}
+            <div className="form-group">
+              <label>Experience</label>
+              {experience.map((exp, index) => (
+                <div key={index} className="experience-entry">
+                  <input
+                    name="title"
+                    type="text"
+                    value={exp.title}
+                    onChange={(e) => handleExperienceChange(index, e)}
+                    placeholder="Job Title"
+                  />
+                  <input
+                    name="company"
+                    type="text"
+                    value={exp.company}
+                    onChange={(e) => handleExperienceChange(index, e)}
+                    placeholder="Company"
+                  />
+                  <input
+                    name="location"
+                    type="text"
+                    value={exp.location}
+                    onChange={(e) => handleExperienceChange(index, e)}
+                    placeholder="Location"
+                  />
+                  <input
+                    name="start_date"
+                    type="date"
+                    value={exp.start_date}
+                    onChange={(e) => handleExperienceChange(index, e)}
+                    placeholder="Start Date"
+                  />
+                  <input
+                    name="end_date"
+                    type="date"
+                    value={exp.end_date}
+                    onChange={(e) => handleExperienceChange(index, e)}
+                    placeholder="End Date"
+                  />
+                  {exp.responsibilities.map((resp, respIndex) => (
+                    <div key={respIndex} className="responsibility-entry">
+                      <input
+                        type="text"
+                        value={resp}
+                        onChange={(e) => handleResponsibilityChange(index, e, respIndex)}
+                        placeholder="Responsibility"
+                      />
+                    </div>
+                  ))}
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const updatedExperience = [...experience];
+                      updatedExperience[index].responsibilities.push('');
+                      setExperience(updatedExperience);
+                    }}
+                  >
+                    Add Responsibility
+                  </button>
+                </div>
+              ))}
+              <button
+                type="button"
+                onClick={addExperience}
+              >
+                Add Experience
+              </button>
+            </div>
 
-          <button
-            type="submit"
-            className="submit-btn"
-            disabled={!isFormValid}
-          >
-            Save Resume
-          </button>
-        </form>
-      )}
+            {/* Education */}
+            <div className="form-group">
+              <label>Education</label>
+              {education.map((edu, index) => (
+                <div key={index} className="education-entry">
+                  <input
+                    name="degree"
+                    type="text"
+                    value={edu.degree}
+                    onChange={(e) => handleEducationChange(index, e)}
+                    placeholder="Degree"
+                  />
+                  <input
+                    name="institution"
+                    type="text"
+                    value={edu.institution}
+                    onChange={(e) => handleEducationChange(index, e)}
+                    placeholder="Institution"
+                  />
+                  <input
+                    name="graduation_year"
+                    type="number"
+                    value={edu.graduation_year}
+                    onChange={(e) => handleEducationChange(index, e)}
+                    placeholder="Graduation Year"
+                  />
+                </div>
+              ))}
+              <button type="button" onClick={addEducation}>Add Education</button>
+            </div>
 
-      {/* Display Fetched Resumes */}
-      <div className="resume-list">
-        <h3>Your Saved Resumes</h3>
-        {fetchError && <div className="error-message">{fetchError}</div>}
-        {resumes.length === 0 ? (
-          <div>
-            <p>No resumes found.</p>
-            <button className="submit-btn" onClick={() => setShowForm(true)}>Create New Resume</button>
-          </div>
-        ) : (
-          <ul>
-            {resumes.map((resume) => (
-              <li key={resume._id}>
-                <h4>{resume.name}</h4>
-                <p>Email: {resume.email}</p>
-                <p>Phone: {resume.phone}</p>
-                <p>Skills: {resume.skills}</p>
-                <p>Education: {resume.education}</p>
-                <p>Projects: {resume.projects}</p>
-              </li>
-            ))}
-          </ul>
+            {/* Certifications */}
+            <div className="form-group">
+              <label>Certifications</label>
+              {certifications.map((cert, index) => (
+                <div key={index} className="certification-entry">
+                  <input
+                    name="name"
+                    type="text"
+                    value={cert.name}
+                    onChange={(e) => handleCertificationChange(index, e)}
+                    placeholder="Certification Name"
+                  />
+                  <input
+                    name="year"
+                    type="number"
+                    value={cert.year}
+                    onChange={(e) => handleCertificationChange(index, e)}
+                    placeholder="Year"
+                  />
+                </div>
+              ))}
+              <button type="button" onClick={addCertification}>Add Certification</button>
+            </div>
+
+            {/* Projects */}
+            <div className="form-group">
+              <label>Projects</label>
+              {projects.map((proj, index) => (
+                <div key={index} className="project-entry">
+                  <input
+                    name="name"
+                    type="text"
+                    value={proj.name}
+                    onChange={(e) => handleProjectChange(index, e)}
+                    placeholder="Project Name"
+                  />
+                  <textarea
+                    name="description"
+                    value={proj.description}
+                    onChange={(e) => handleProjectChange(index, e)}
+                    placeholder="Project Description"
+                  />
+                  <input
+                    name="technologies"
+                    type="text"
+                    value={proj.technologies}
+                    onChange={(e) => handleProjectChange(index, e)}
+                    placeholder="Technologies"
+                  />
+                </div>
+              ))}
+              <button type="button" onClick={addProject}>Add Project</button>
+            </div>
+
+            {error && <div className="error-message">{error}</div>}
+            {successMessage && <div className="success-message">{successMessage}</div>}
+
+            <button
+              type="submit"
+              className="submit-btn"
+              disabled={!isFormValid}
+            >
+              Save Resume
+            </button>
+          </form>
         )}
+
+         {/* Add ResumeList component to display fetched resumes */}
+        <ResumeList resumes={resumes} fetchError={fetchError} />
       </div>
     </div>
-</div>
   );
 };
 
