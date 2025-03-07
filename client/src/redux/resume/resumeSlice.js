@@ -9,6 +9,7 @@ export const resumeApi = createApi({
     }),
     endpoints: (builder) => ({
         getResumes: builder.query({ query: () => "/" }),
+        getResumeById: builder.query({ query: (id) => `/${id}`,}),
         addResume: builder.mutation({ query: (resume) => ({
                 url: "/", method: "POST", body: resume }) }),
         updateResume: builder.mutation({ query: ({ id, updatedResume }) => ({
@@ -18,5 +19,6 @@ export const resumeApi = createApi({
     }),
 });
 
-export const { useGetResumesQuery, useAddResumeMutation, useUpdateResumeMutation, useDeleteResumeMutation } = resumeApi;
+export const { useGetResumesQuery, useGetResumeByIdQuery, useAddResumeMutation,
+    useUpdateResumeMutation, useDeleteResumeMutation } = resumeApi;
 export default resumeApi;

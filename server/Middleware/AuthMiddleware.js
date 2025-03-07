@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken");
 
 module.exports.userVerification = async (req, res, next) => {
     console.log("User verification middleware")
+    console.log("token", req.cookies.token)
     const token = req.cookies.token;
 
     if (!token) {
@@ -12,7 +13,9 @@ module.exports.userVerification = async (req, res, next) => {
 
     try {
         const decoded = jwt.verify(token, process.env.TOKEN_KEY);
+        console.log("decoded", decoded)
         const user = await User.findById(decoded.id);
+        console.log("user", user)
         if (user) {
             req.user = user;  // Attach user to request object
             return next();    // Proceed to next middleware or route handler

@@ -57,7 +57,7 @@ const resumeSchema = new mongoose.Schema({
     heading: HeadingSchema,  // Single heading
     experience: [ExperienceSchema],  // Multiple experiences
     education: [EducationSchema],  // Multiple education entries
-    skills: [SkillsSchema],  // One skills section
+    skills: [String],  // One skills section
     projects: [ProjectsSchema],  // Multiple projects
     certifications: [CertificationsSchema]  // Multiple certifications
 });

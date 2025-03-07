@@ -13,10 +13,9 @@ const app = express();
 
 // cors middleware
 app.use(cors({
-  // origin:  process.env.REACT_FRONTEND,
-  origin: "*",
-  methods: ["GET", "POST", "PUT", "DELETE"],
-  credentials: true,
+    origin:  process.env.REACT_FRONTEND,
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true,
 }));
 
 // MongoDB connection

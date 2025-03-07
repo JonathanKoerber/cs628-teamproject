@@ -1,7 +1,6 @@
 import React from 'react';
-import {useDispatch, useSelector} from "react-redux";
-import { useNavigate} from "react-router-dom";
-import {ToastContainer, toast } from "react-toastify";
+import {useDispatch} from "react-redux";
+import {ToastContainer} from "react-toastify";
 import {signupUser} from "../redux/auth/authActions";
 import '../Style/Login.css'
 

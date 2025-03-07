@@ -52,3 +52,14 @@ module.exports.Login = async (req, res, next) => {
         res.status(500).json({message: "Server error, please try again later"})
     }
 }
+
+module.exports.GetUserInfo = async (req, res) => {
+    try{
+        const user = req.user;
+        user.delete('password');
+        console.log("user", user)
+        res.status(200).json(user);
+    }catch (error) {
+        res.status(500).json({message: "User not found please login"})
+    }
+}

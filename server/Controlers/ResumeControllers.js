@@ -48,6 +48,20 @@ module.exports.getResumes = async (req, res) => {
         res.status(500).json({message: 'Error fetching resumes', error: err})
     }
 }
+module.exports.getResumeById = async (req, res) => {
+    console.log("getting resume by id")
+    try{
+        const user = req.user;
+        const id = req.params.id;
+        const resume = await Resume.findOne({userId: user.id, _id: id});
+        if (!resume){
+            return res.status(404).json({message: 'Resume not found'})
+        }
+        res.status(200).json(resume);
+    }catch (err){
+        res.status(500).json({message: 'Error fetching resumes', error: err})
+    }
+}
 
 module.exports.updateResume = async (req, res) => {
     try{
