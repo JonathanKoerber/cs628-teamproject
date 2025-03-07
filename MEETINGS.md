@@ -1,6 +1,19 @@
 ## CS628 Full Stack Dev Meeting Minuets
 #### Teams: Zandra, Aarthi, Inderdeep, Jonathan
 
+#### Metting 2/28/25 Attn(Aathi, Inderdeep, Zandra, Jonathan)
+
+Agenda: 
+- TP03
+- TP04
+  
+Things that need to get done (how is doing them):
+
+- Aathi will work on ai page and get TP04 going
+- Inderdeep - refactor code agter merge
+- Zandra
+- Jonathan: Portfolio, Add fields for user details, merge files, start on tp03
+
 #### Metting 2/28/25 Attn(Aathi, Inderdeep, Zandra, Jonathan)  
 agenda: 
 -review plan for pt tp03
@@ -9,7 +22,7 @@ things that need to get done:
  
 - Review Logic of Nav bar
 - Connect resume with database
-- Create Resume model
+- Create Resume modelhttps://github.com/JonathanKoerber
 - Create Routes for saving resume
 - Look into Creating reume component display with diffrent style.
 - Create a profile page
