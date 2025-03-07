@@ -177,7 +177,6 @@ const Resume = () => {
     setProjects([...projects, { name: '', description: '', technologies: [''] }]);
   };
 
-  const isFormValid = name && email && skills && !error;
 
   return (
     <div className="container-wrapper">

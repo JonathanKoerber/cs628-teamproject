@@ -1,4 +1,4 @@
-const Resume = require('../models/resumeModel');
+const Resume = require('../Models/resumeModel');
 
 // Controller to create a new resume
 const createResume = async (req, res) => {

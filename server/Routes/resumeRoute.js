@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const { createResume, getResumes, updateResume, deleteResume } = require('../controllers/resumeController');
-const { userVerification } = require('../middleware/AuthMiddleware');
-const { validateResumeFields, checkResumeOwnership, validateResumeFormat } = require('../middleware/resumeMiddleware');
+const { createResume, getResumes, updateResume, deleteResume } = require('../Controlers/resumeController');
+const { userVerification } = require('../Middleware/AuthMiddleware');
+const { validateResumeFields, checkResumeOwnership, validateResumeFormat } = require('../Middleware/resumeMiddleware');
 
 // Route to create a new resume
 router.post('/resume', userVerification, validateResumeFields, validateResumeFormat, createResume);
