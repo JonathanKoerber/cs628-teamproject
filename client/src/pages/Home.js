@@ -1,11 +1,7 @@
-import { useState, useEffect } from 'react';
-import { useNavigate, useNavigation } from 'react-router-dom';
-import { useCookies } from 'react-cookie';
-import axios from 'axios';
-import { ToastContainer, toast } from 'react-toastify';
+import { useNavigate} from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
 import Button from '../components/Button';
 import Footer from '../components/Footer';
-import Navbar from '../components/Navbar';
 import Carousel from '../components/Carousel';
 import data from '../data';
 

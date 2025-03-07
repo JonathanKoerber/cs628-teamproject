@@ -41,6 +41,7 @@ const authSlice = createSlice({
                 state.email = payload.user.email;
                 state.isLoggedIn = true;
                 state.success = true;
+                Cookies.set("token", payload.token, {expires: 1});
                 console.log("payload", payload);
             })
             .addCase(signupUser.rejected, (state,{ payload} ) => {
@@ -61,6 +62,8 @@ const authSlice = createSlice({
                     state.isLoggedIn = true;
                     state.success = true;
                     state.message = payload.message;
+
+                    Cookies.set("token", payload.token, {expires: 1});
                 }else{
                     state.loading = false;
                     state.message = payload.message
@@ -72,6 +75,7 @@ const authSlice = createSlice({
                 state.e = payload
             })
             .addCase(validateUser.pending, (state, action) => {
+                console.log("validate user pending")
                 state.loading = true;
             })
             .addCase(validateUser.fulfilled, (state, {payload}) => {
@@ -83,6 +87,7 @@ const authSlice = createSlice({
                 state.success = true;
             })
             .addCase(validateUser.rejected, (state, {payload}) => {
+                console.log("validate user rejected", payload)
                 state.loading = false
                 state.user = null
                 state.isLoggedIn = false;

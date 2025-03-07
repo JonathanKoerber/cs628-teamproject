@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch} from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
-import {loginUser} from "../redux/user/authActions";
+import {loginUser} from "../redux/auth/authActions";
 
 const Login = ({toggleLogin}) => {
     const [inputValue, setInputValue] = useState({
@@ -13,7 +13,6 @@ const Login = ({toggleLogin}) => {
     const { email, password } = inputValue;
 
     const dispatch = useDispatch();
-    const navigate = useNavigate()
 
     const handleOnChange = (e) => {
         const { name, value } = e.target;

@@ -68,28 +68,32 @@ export const loginUser = createAsyncThunk(
         }
     });
 
-export const validateUser = createAsyncThunk(
-    'auth/validateUser',
-    async({rejectWithValue}) => {
-        console.log("validateUser Action");
-        // check if cookie is stale
-        try{
-            const config = {
-                withCredentials: true,
-            }
-            const response = await axios.get(
-                `${loginURL}`,
-                {withCredentials: true}
-            );
-            return response.data
-        }catch(error){
-            if (error.response && error.response.data) {
-                rejectWithValue(error.response.data.message);
-            }else{
-                return rejectWithValue(error.data);
-            }
-        }
-        //check backend
-    }
 
-)
+export const validateUser = createAsyncThunk(
+  'auth/validateUser',
+  async (_, { rejectWithValue }) => {
+      console.log("validateUser Action");
+
+      try {
+          // Configuration for axios request
+          const config = {
+              withCredentials: true,  // Ensure cookies are sent with the request
+          };
+
+          // Make the GET request to validate the user
+          const response = await axios.get(
+              `${baseURL}`,  // Ensure this URL points to a protected route on the backend
+              config  // Pass in the config here
+          );
+
+          // Return the response data if successful
+          return response.data;
+      } catch (error) {
+          // Catch and handle errors
+          if (error.response && error.response.data) {
+              return rejectWithValue(error.response.data.message);
+          } else {
+              return rejectWithValue("An error occurred while validating user");
+          }
+      }
+});

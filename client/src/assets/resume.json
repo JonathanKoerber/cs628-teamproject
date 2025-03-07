@@ -1,0 +1,92 @@
+{
+  "_id": "67c91d917cca6be6af1607e5",
+  "userId": "67c8c887981c21bd60474b4b",
+  "title": "Resume 2",
+  "heading": {
+    "name": "John Doe",
+    "email": "johndoe@example.com",
+    "phone": "+1 (555) 123-4567",
+    "linkedin": "https://www.linkedin.com/in/johndoe",
+    "github": "https://github.com/johndoe",
+    "summary": "Full-stack developer with 5+ years of experience.",
+    "_id": "67c91d917cca6be6af1607e6"
+  },
+  "experience": [
+    {
+      "company": "Tech Corp",
+      "position": "Software Engineer",
+      "startDate": "2021-01-01T00:00:00.000Z",
+      "endDate": "2023-12-31T00:00:00.000Z",
+      "location": "New York, NY",
+      "description": "Developed and maintained web applications.",
+      "_id": "67c91d917cca6be6af1607e7"
+    },
+    {
+      "company": "Innovate Solutions",
+      "position": "Frontend Developer",
+      "startDate": "2018-06-01T00:00:00.000Z",
+      "endDate": "2020-12-31T00:00:00.000Z",
+      "location": "San Francisco, CA",
+      "description": "Built responsive UI components using React and integrated APIs with Redux.",
+      "_id": "67c91d917cca6be6af1607e8"
+    }
+  ],
+  "education": [
+    {
+      "school": "University of California, Berkeley",
+      "degree": "Bachelor of Science in Computer Science",
+      "startDate": "2014-08-01T00:00:00.000Z",
+      "endDate": "2018-05-31T00:00:00.000Z",
+      "location": "Berkeley, CA",
+      "_id": "67c91d917cca6be6af1607e9"
+    }
+  ],
+  "skills": [
+    {
+      "skills": [
+        "JavaScript",
+        "React",
+        "Node.js",
+        "MongoDB",
+        "Redux",
+        "Express",
+        "Git"
+      ],
+      "_id": "67c91d917cca6be6af1607ea"
+    }
+  ],
+  "projects": [
+    {
+      "title": "E-commerce Platform",
+      "description": "Developed a full-stack e-commerce platform with user authentication and payment integration.",
+      "technologies": [
+        "React",
+        "Node.js",
+        "MongoDB",
+        "Stripe API"
+      ],
+      "link": "https://github.com/johndoe/ecommerce-platform",
+      "_id": "67c91d917cca6be6af1607eb"
+    },
+    {
+      "title": "Chat App",
+      "description": "Built a real-time chat application using WebSockets and Firebase.",
+      "technologies": [
+        "React",
+        "Firebase",
+        "WebSockets"
+      ],
+      "link": "https://github.com/johndoe/chat-app",
+      "_id": "67c91d917cca6be6af1607ec"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "AWS Certified Developer - Associate",
+      "organization": "Amazon Web Services",
+      "date": "2022-09-15T00:00:00.000Z",
+      "_id": "67c91d917cca6be6af1607ed"
+    }
+  ],
+  "__v": 0
+}
