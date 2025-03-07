@@ -1,7 +1,7 @@
 ## CS628 Full Stack Dev Meeting Minuets
 #### Teams: Zandra, Aarthi, Inderdeep, Jonathan
 
-#### Metting 2/28/25 Attn(Aathi, Inderdeep, Zandra, Jonathan)
+#### Metting 3/6/25 Attn(Aathi, Inderdeep, Zandra, Jonathan)
 
 Agenda: 
 - TP03
