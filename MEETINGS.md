@@ -11,7 +11,7 @@ Things that need to get done (how is doing them):
 
 - Aathi will work on ai page and get TP04 going
 - Inderdeep - refactor code agter merge
-- Zandra
+- Zandra - Finishing up the homepage with signin and singup logic and troubleshoot why it's not connecting to the database. Pending on team's decision on which code we're using for the profile and resume page. Whether to go with Jonathan's or Inderdeep's version. 
 - Jonathan: Portfolio, Add fields for user details, merge files, start on tp03
 
 #### Metting 2/28/25 Attn(Aathi, Inderdeep, Zandra, Jonathan)  
