@@ -1,0 +1,113 @@
+/* Template 1 (Classic Layout) */
+.resume-preview.template-1 {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    padding: 20px;
+    width: 80%;
+    max-width: 900px;
+    background-color: #ffffff;
+}
+
+.resume-preview.template-1 h2 {
+    font-size: 2em;
+    margin-bottom: 10px;
+}
+
+.resume-preview.template-1 .resume-contact p {
+    font-size: 1em;
+    margin: 5px 0;
+}
+
+.resume-preview.template-1 .resume-contact a {
+    color: inherit;
+    text-decoration: underline;
+}
+
+.resume-preview.template-1 .resume-section {
+    margin-bottom: 20px;
+}
+
+.resume-preview.template-1 .resume-entry h4 {
+    font-size: 1.2em;
+    margin: 5px 0;
+}
+
+.resume-preview.template-1 .resume-entry ul {
+    list-style-type: disc;
+    margin-left: 20px;
+    padding-left: 0;
+}
+
+.resume-preview.template-1 .resume-entry ul li {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.resume-preview.template-1 .download-btn {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.resume-preview.template-1 .download-btn:hover {
+    background-color: #45a049;
+}
+
+/* Template 2 (Modern Layout) */
+.resume-preview.template-2 {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 20px;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    width: 80%;
+    max-width: 900px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.resume-preview.template-2 h2 {
+    font-size: 2.5em;
+    margin-bottom: 10px;
+    color: #2c3e50;
+}
+
+.resume-preview.template-2 .resume-contact p {
+    font-size: 1.1em;
+    color: #34495e;
+    margin: 5px 0;
+}
+
+.resume-preview.template-2 .resume-contact a {
+    color: inherit;
+    text-decoration: underline;
+}
+
+.resume-preview.template-2 .resume-section {
+    margin-bottom: 25px;
+}
+
+.resume-preview.template-2 .resume-entry h4 {
+    font-size: 1.3em;
+    margin: 5px 0;
+    color: #16a085;
+}
+
+.resume-preview.template-2 .resume-entry ul {
+    list-style-type: circle;
+    margin-left: 20px;
+}
+
+.resume-preview.template-2 .download-btn {
+    padding: 12px 24px;
+    background-color: #2980b9;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.resume-preview.template-2 .download-btn:hover {
+    background-color: #3498db;
+}

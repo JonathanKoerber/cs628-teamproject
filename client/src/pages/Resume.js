@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import '../Style/Resume.css';
-import Carousel from '../components/Carousel';
 import DisplayResume from "../components/DisplayResume";
 import ResumeList from '../components/ResumeList';
+import ResumePreview from '../components/ResumePreview';
 
 
 const Resume = () => {
@@ -153,6 +153,12 @@ const Resume = () => {
     setProjects(updatedProjects);
   };
 
+  const handleTechnologyChange = (projIndex, techIndex, e) => {
+    const updatedProjects = [...projects];
+    updatedProjects[projIndex].technologies[techIndex] = e.target.value;
+    setProjects(updatedProjects);
+  };
+
   // Add a new responsibility in experience
   const handleResponsibilityChange = (index, e, responsibilityIndex) => {
     const updatedExperience = [...experience];
@@ -208,7 +214,20 @@ const Resume = () => {
   return (
     <div className="container-wrapper">
       <div className='resume-container-left'>
-        <Carousel />
+        <ResumePreview
+            name={name}
+            email={email}
+            phone={phone}
+            location={location}
+            linkedin={linkedin}
+            github={github}
+            summary={summary}
+            experience={experience}
+            education={education}
+            skills={skills}
+            certifications={certifications}
+            projects={projects}
+          />
       </div>
       <div className="resume-container">
         <h2>Create Your Resume</h2>
@@ -463,13 +482,26 @@ const Resume = () => {
                     onChange={(e) => handleProjectChange(index, e)}
                     placeholder="Project Description"
                   />
-                  <input
-                    name="technologies"
-                    type="text"
-                    value={proj.technologies}
-                    onChange={(e) => handleProjectChange(index, e)}
-                    placeholder="Technologies"
-                  />
+                  {proj.technologies.map((tech, techIndex) => (
+                    <div key={techIndex}>
+                      <input
+                        type="text"
+                        value={tech}
+                        onChange={(e) => handleTechnologyChange(index, techIndex, e)}
+                        placeholder="Technology"
+                      />
+                    </div>
+                  ))}
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const updatedProjects = [...projects];
+                      updatedProjects[index].technologies.push('');
+                      setProjects(updatedProjects);
+                    }}
+                  >
+                    Add Technology
+                  </button>
                 </div>
               ))}
               <button type="button" onClick={addProject}>Add Project</button>

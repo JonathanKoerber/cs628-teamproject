@@ -36,7 +36,7 @@ mongoose
 
 // Routes
 app.use('/', authRoute);  // Auth routes (signup, login)
-app.use('/api/resume', resumeRoute);  // Resume routes (CRUD operations for resumes)
+app.use('/api', resumeRoute);  // Resume routes (CRUD operations for resumes)
 app.use('/api/airesume', AIResumeRoutes);  // AI Resume related routes (if any)
 
 // Start the server
