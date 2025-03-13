@@ -33,6 +33,9 @@ const Resume = () => {
   const [fetchError, setFetchError] = useState('');
   const [showForm, setShowForm] = useState(true); // Show the form
 
+  const [refinedSummary, setRefinedSummary] = useState('');
+  const [refinedResponsibilities, setRefinedResponsibilities] = useState([]);
+  
   // Fetch resumes on component mount
   const fetchResumes = async () => {
     try {
@@ -177,6 +180,30 @@ const Resume = () => {
     setProjects([...projects, { name: '', description: '', technologies: [''] }]);
   };
 
+  const handleGeminiSummary = async () => {
+    try {
+      const response = await axios.post('http://localhost:5000/api/airesume/refine', { text: summary });
+      setRefinedSummary(response.data.enhancedText);
+      console.log(response.data.enhancedText);
+    } catch (error) {
+      console.error('Error fetching refined summary:', error);
+    }
+  };
+
+  const handleGeminiResponsibilities = async (index) => {
+    try {
+      const response = await axios.post('http://localhost:5000/api/airesume/refine', {
+        text: experience[index].responsibilities.join('. '),
+      });
+      const updatedResponsibilities = [...refinedResponsibilities];
+      updatedResponsibilities[index] = response.data.enhancedText.split('. ');
+      setRefinedResponsibilities(updatedResponsibilities);
+      console.log(response.data.enhancedText);
+    } catch (error) {
+      console.error('Error fetching refined responsibilities:', error);
+    }
+  };
+
 
   return (
     <div className="container-wrapper">
@@ -256,6 +283,15 @@ const Resume = () => {
                 onChange={(e) => setSummary(e.target.value)}
                 placeholder="Summary"
               />
+              <button type="button" onClick={handleGeminiSummary}>Refine with AI</button>
+            </div>
+            <div>
+              {refinedSummary && (
+                <div className="ai-response">
+                  <p><strong>Refined Summary:</strong> {refinedSummary}</p>
+                  <button type="button" onClick={() => setSummary(refinedSummary)}>Use This</button>
+                </div>
+              )}
             </div>
             <div className="form-group">
               <label htmlFor="skills">Skills</label>
@@ -317,6 +353,7 @@ const Resume = () => {
                       />
                     </div>
                   ))}
+                  <button type="button" onClick={() => handleGeminiResponsibilities(index)}>Refine with AI</button>
                   <button
                     type="button"
                     onClick={() => {
@@ -327,6 +364,22 @@ const Resume = () => {
                   >
                     Add Responsibility
                   </button>
+                  {refinedResponsibilities[index] && (
+                    <div className="ai-response">
+                      <p><strong>Refined Responsibilities:</strong></p>
+                      <ul>
+                        {refinedResponsibilities[index].map((resp, idx) => (
+                          <li key={idx}>{resp}</li>
+                        ))}
+                      </ul>
+                      <button type="button" onClick={() => {
+                        const updatedExperience = [...experience];
+                        updatedExperience[index].responsibilities = refinedResponsibilities[index];
+                        setExperience(updatedExperience);
+                      }}>Use These</button>
+                    </div>
+                  )}
+                  
                 </div>
               ))}
               <button
