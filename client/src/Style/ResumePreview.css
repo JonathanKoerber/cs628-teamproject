@@ -6,11 +6,15 @@
     width: 80%;
     max-width: 900px;
     background-color: #ffffff;
+    /* border: 2px solid #57BADD; */
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);
 }
 
 .resume-preview.template-1 h2 {
     font-size: 2em;
     margin-bottom: 10px;
+    /* border: 1px solid #AAD4E3; */
+    /* border: 2px solid #57BADD */
 }
 
 .resume-preview.template-1 .resume-contact p {
@@ -34,7 +38,8 @@
 
 .resume-preview.template-1 .resume-entry ul {
     list-style-type: disc;
-    margin-left: 20px;
+    /* This caused the bug to the left and Layout.css ul cause the center  */
+    /* margin-left: 20px; */
     padding-left: 0;
 }
 
@@ -111,3 +116,11 @@
 .resume-preview.template-2 .download-btn:hover {
     background-color: #3498db;
 }
+
+.template-selection {
+    margin-left: 20px;
+    margin-top: 30px;
+}
+
+.margin-left {
+    margin-left: 20px;}

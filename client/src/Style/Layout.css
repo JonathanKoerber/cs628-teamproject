@@ -1,13 +1,13 @@
 /* src/Style/Layout.css */
 
 nav {
-  background-color: #57BADD;
+  /* background-color: #57BADD; */
   padding: 10px 20px;
   margin-bottom: 20px;
   border-radius: 8px;
 }
 
-ul {
+.navbar ul {
   list-style-type: none;
   margin: 0;
   padding: 0;
@@ -27,14 +27,25 @@ a {
   transition: background-color 0.3s ease;
 }
 
+.wht-btn {
+  border: 1px solid #57BADD;
+  background-color: white;
+  /* color: #57BADD; */
+  border-radius: 25px;
+}
+
+.blue-font a {
+  color: #57BADD;
+}
+
 a:hover {
-  background-color: #555;
-  border-radius: 5px;
+  background-color: #0879a3;
+  border-radius: 25px;
 }
 
 /* Style for the logout button */
 button.login-button {
-  background-color: #f44336;
+  background-color: #57BADD;
   color: white;
   border: none;
   padding: 10px 20px;

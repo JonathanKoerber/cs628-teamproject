@@ -1,7 +1,8 @@
 .ai-resume-container {
-    max-width: 1200px;
-    margin: 0 auto;
+    max-width: 69rem;
+    margin: 30px auto;
     padding: 20px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);
 }
 
 .ai-resume-title {
@@ -21,7 +22,6 @@
 }
 
 .ai-resume-textarea {
-    width: 100%;
     padding: 10px;
     margin-bottom: 10px;
     border-radius: 5px;
@@ -29,12 +29,15 @@
 }
 
 .ai-resume-submit-button {
-    padding: 10px 20px;
-    background-color: #09f;
+    padding: 15px 20px;
+    background-color: #57BADD;
     color: #fff;
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    font-weight: 600;
+    font-size: 16px;
+    ;
 }
 
 .ai-resume-submit-button.disabled {
