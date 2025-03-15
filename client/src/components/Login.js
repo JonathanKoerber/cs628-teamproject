@@ -13,6 +13,7 @@ const Login = ({toggleLogin}) => {
     const { email, password } = inputValue;
 
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const handleOnChange = (e) => {
         const { name, value } = e.target;
@@ -34,24 +35,56 @@ const Login = ({toggleLogin}) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
        if(!inputValue.email || !inputValue.password){
-           toast("Email and password is required!", {position: "bottom-right"});
+           toast("Email and password is required!", {position: "top-right"});
        }else{
-               dispatch(loginUser({
-                   password: inputValue.password,
-                   email: inputValue.email,})).unwrap().then((response)=>{
+           const toastId = toast.loading(
+               {render: "Loading...",
+               position: "top-right",
+               autoClose: 5000});
 
-               }).catch(err=>{
-                   console.log("login", err)
-               })
+           try {
+               const response = await dispatch(loginUser({
+                   password: inputValue.password,
+                   email: inputValue.email,
+               })).unwrap()
+               if (response.success) {
+                   toast.update(toastId, {
+                       render: `Welcome back, ${response.user.username}`,
+                       type: "success",
+                       isLoading: false,
+                       autoClose: 3000,
+                       position: "top-right",
+                   });
+               } else {
+                   toast.update(toastId, {
+                       render: response.message,
+                       type: "error",
+                       isLoading: false,
+                       autoClose: 3000,
+                       position: "top-right"
+                   })
+               }
+           }catch(err) {
+               toast.update(toastId, {
+                   render: "Login failed. Please try again later.",
+                   type: "error",
+                   isLoading: false,
+                   autoClose: 3000,
+                   position: "top-right"
+               });
+               console.log(err);
+               }
        }
        clearInputs()
+        navigate("/");
+
     };
     return (
         <div className={"login-container"}>
             <div className="login">
                 <form className="login-form" onSubmit={handleSubmit} onChange={handleOnChange}>
-                    <input className="login-input" type="text" name="email" value={email} placeholder="Enter your email"/>
-                    <input className="login-input" type="password" name="password" value={password} placeholder="Password"/>
+                    <input className="login-input" type="text" name="email" value={email} placeholder="Enter your email" onChange={handleOnChange}/>
+                    <input className="login-input" type="password" name="password" value={password} placeholder="Password" onChange={handleOnChange}/>
                     <button className="login-button" type="submit">Login</button>
                     <span>
                     Don't have an account? <span

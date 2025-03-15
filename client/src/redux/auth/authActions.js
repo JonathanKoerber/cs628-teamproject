@@ -3,7 +3,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 
 const loginURL = process.env.REACT_APP_AUTH_LOGIN;
 const signupURL = process.env.REACT_APP_AUTH_SIGNUP;
-const baseURL = process.env.REACT_APP_BASS;
+const baseURL = process.env.REACT_APP_BASE;
 
 export const signupUser = createAsyncThunk(
     'auth/signup',

@@ -1,6 +1,6 @@
 import React from 'react';
 import {useDispatch} from "react-redux";
-import {ToastContainer} from "react-toastify";
+import {toast, ToastContainer} from "react-toastify";
 import {signupUser} from "../redux/auth/authActions";
 import '../Style/Login.css'
 
@@ -41,22 +41,30 @@ const Signup = ({toggleLogin}) => {
                     username: inputValue.username,
                     email: inputValue.email,
                     password: inputValue.password})).unwrap().then((response)=>{
-                                                        console.log("Signup Success", response)
+                        console.log("Signup Success", response.message)
+                        if (response.success != true){
+                            toast.error(response.message)
+                        }else{
+                        toast.success(response.message)
+                        }
+
                 }).catch(err => {
+                    toast.error(err.message)
                     console.log(err)
                 });
             }
-        clearInputs()
-        }
+
+            clearInputs()
+    }
 
 
     return (
         <div className={"login-container"}>
             <div className="login">
                 <form className="login-form" onSubmit={handleSubmit} onChange={handleOnChange}>
-                    <input className="login-input" type={"test"} name={"username"}value={username} placeholder={"Add username"}/>
-                    <input className="login-input" type="text" name="email" placeholder="Enter your email" value={email}/>
-                    <input className="login-input" type="password" name="password" placeholder="Password" value={password}/>
+                    <input className="login-input" type={"test"} name={"username"}value={username} placeholder={"Add username"} onChange={handleOnChange}/>
+                    <input className="login-input" type="text" name="email" placeholder="Enter your email" value={email} onChange={handleOnChange}/>
+                    <input className="login-input" type="password" name="password" placeholder="Password" value={password} onChange={handleOnChange}/>
                     <button className="login-button" type="submit">Signup</button>
                     <span>
                     Already have an account? <span

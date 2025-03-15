@@ -1,6 +1,6 @@
 import {Outlet, Link, useNavigate} from "react-router-dom";
 import {useEffect } from "react";
-import {ToastContainer} from "react-toastify";
+import {toast, ToastContainer} from "react-toastify";
 import {useDispatch, useSelector} from "react-redux";
 import {logout} from "../redux/auth/authSlice";
 import '../Style/Layout.css';
@@ -10,15 +10,15 @@ const Layout = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const isLoggedIn = useSelector(state => state.auth.isLoggedIn);
+  const message = useSelector(state => state.auth.message);
 
-  useEffect(() => {
-    if (isLoggedIn) {
-      navigate("/profile");
-    }
-  },[isLoggedIn])
   const handleLogout = () => {
-    console.log("logout");
-    dispatch(logout());
+    navigate("/");
+    try {
+     dispatch(logout())
+    }catch(err){
+      console.log("logout response error: ", err);
+    }
   };
 
   return (
