@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import '../Style/Resume.css';
-import Carousel from '../components/Carousel';
-import DisplayResume from "../components/DisplayResume";
+import DisplayResume from '../components/DisplayResume';
 import ResumeList from '../components/ResumeList';
-
+import ResumePreview from '../components/ResumePreview';
 
 const Resume = () => {
   // States for the form fields
@@ -15,18 +14,26 @@ const Resume = () => {
   const [linkedin, setLinkedin] = useState('');
   const [github, setGithub] = useState('');
   const [summary, setSummary] = useState('');
-  const [experience, setExperience] = useState([{
-    title: '',
-    company: '',
-    location: '',
-    start_date: '',
-    end_date: '',
-    responsibilities: [''],
-  }]);
-  const [education, setEducation] = useState([{ degree: '', institution: '', graduation_year: '' }]);
+  const [experience, setExperience] = useState([
+    {
+      title: '',
+      company: '',
+      location: '',
+      start_date: '',
+      end_date: '',
+      responsibilities: [''],
+    },
+  ]);
+  const [education, setEducation] = useState([
+    { degree: '', institution: '', graduation_year: '' },
+  ]);
   const [skills, setSkills] = useState('');
-  const [certifications, setCertifications] = useState([{ name: '', year: '' }]);
-  const [projects, setProjects] = useState([{ name: '', description: '', technologies: [''] }]);
+  const [certifications, setCertifications] = useState([
+    { name: '', year: '' },
+  ]);
+  const [projects, setProjects] = useState([
+    { name: '', description: '', technologies: [''] },
+  ]);
   const [error, setError] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
   const [resumes, setResumes] = useState([]);
@@ -35,7 +42,7 @@ const Resume = () => {
 
   const [refinedSummary, setRefinedSummary] = useState('');
   const [refinedResponsibilities, setRefinedResponsibilities] = useState([]);
-  
+
   // Fetch resumes on component mount
   const fetchResumes = async () => {
     try {
@@ -73,14 +80,14 @@ const Resume = () => {
         phone,
         location,
         linkedin,
-        github
+        github,
       },
       summary,
       experience,
       education,
       skills,
       certifications,
-      projects
+      projects,
     };
 
     try {
@@ -106,7 +113,16 @@ const Resume = () => {
     setLinkedin('');
     setGithub('');
     setSummary('');
-    setExperience([{ title: '', company: '', location: '', start_date: '', end_date: '', responsibilities: [''] }]);
+    setExperience([
+      {
+        title: '',
+        company: '',
+        location: '',
+        start_date: '',
+        end_date: '',
+        responsibilities: [''],
+      },
+    ]);
     setEducation([{ degree: '', institution: '', graduation_year: '' }]);
     setSkills('');
     setCertifications([{ name: '', year: '' }]);
@@ -153,10 +169,17 @@ const Resume = () => {
     setProjects(updatedProjects);
   };
 
+  const handleTechnologyChange = (projIndex, techIndex, e) => {
+    const updatedProjects = [...projects];
+    updatedProjects[projIndex].technologies[techIndex] = e.target.value;
+    setProjects(updatedProjects);
+  };
+
   // Add a new responsibility in experience
   const handleResponsibilityChange = (index, e, responsibilityIndex) => {
     const updatedExperience = [...experience];
-    updatedExperience[index].responsibilities[responsibilityIndex] = e.target.value;
+    updatedExperience[index].responsibilities[responsibilityIndex] =
+      e.target.value;
     setExperience(updatedExperience);
   };
 
@@ -164,12 +187,22 @@ const Resume = () => {
   const addExperience = () => {
     setExperience([
       ...experience,
-      { title: '', company: '', location: '', start_date: '', end_date: '', responsibilities: [''] },
+      {
+        title: '',
+        company: '',
+        location: '',
+        start_date: '',
+        end_date: '',
+        responsibilities: [''],
+      },
     ]);
   };
 
   const addEducation = () => {
-    setEducation([...education, { degree: '', institution: '', graduation_year: '' }]);
+    setEducation([
+      ...education,
+      { degree: '', institution: '', graduation_year: '' },
+    ]);
   };
 
   const addCertification = () => {
@@ -177,12 +210,18 @@ const Resume = () => {
   };
 
   const addProject = () => {
-    setProjects([...projects, { name: '', description: '', technologies: [''] }]);
+    setProjects([
+      ...projects,
+      { name: '', description: '', technologies: [''] },
+    ]);
   };
 
   const handleGeminiSummary = async () => {
     try {
-      const response = await axios.post('http://localhost:5000/api/airesume/refine', { text: summary });
+      const response = await axios.post(
+        'http://localhost:5000/api/airesume/refine',
+        { text: summary }
+      );
       setRefinedSummary(response.data.enhancedText);
       console.log(response.data.enhancedText);
     } catch (error) {
@@ -192,9 +231,12 @@ const Resume = () => {
 
   const handleGeminiResponsibilities = async (index) => {
     try {
-      const response = await axios.post('http://localhost:5000/api/airesume/refine', {
-        text: experience[index].responsibilities.join('. '),
-      });
+      const response = await axios.post(
+        'http://localhost:5000/api/airesume/refine',
+        {
+          text: experience[index].responsibilities.join('. '),
+        }
+      );
       const updatedResponsibilities = [...refinedResponsibilities];
       updatedResponsibilities[index] = response.data.enhancedText.split('. ');
       setRefinedResponsibilities(updatedResponsibilities);
@@ -204,158 +246,193 @@ const Resume = () => {
     }
   };
 
-
   return (
-    <div className="container-wrapper">
+    <div className='container-wrapper'>
       <div className='resume-container-left'>
-        <Carousel />
+        <ResumePreview
+          name={name}
+          email={email}
+          phone={phone}
+          location={location}
+          linkedin={linkedin}
+          github={github}
+          summary={summary}
+          experience={experience}
+          education={education}
+          skills={skills}
+          certifications={certifications}
+          projects={projects}
+        />
       </div>
-      <div className="resume-container">
+      <div className='resume-container'>
         <h2>Create Your Resume</h2>
         {/* Show the form conditionally based on showForm */}
         {showForm && (
-          <form onSubmit={handleSubmit} className="resume-form">
-            <div className="form-group">
-              <label htmlFor="name">Name</label>
+          <form onSubmit={handleSubmit} className='resume-form'>
+            <div className='form-group'>
+              <label htmlFor='name'>Name</label>
               <input
-                id="name"
-                type="text"
+                id='name'
+                type='text'
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                placeholder="Your Name"
+                placeholder='Your Name'
               />
             </div>
-            <div className="form-group">
-              <label htmlFor="email">Email</label>
+            <div className='form-group'>
+              <label htmlFor='email'>Email</label>
               <input
-                id="email"
-                type="email"
+                id='email'
+                type='email'
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="Your Email"
+                placeholder='Your Email'
               />
             </div>
-            <div className="form-group">
-              <label htmlFor="phone">Phone</label>
+            <div className='form-group'>
+              <label htmlFor='phone'>Phone</label>
               <input
-                id="phone"
-                type="text"
+                id='phone'
+                type='text'
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
-                placeholder="Your Phone"
+                placeholder='Your Phone'
               />
             </div>
-            <div className="form-group">
-              <label htmlFor="location">Location</label>
+            <div className='form-group'>
+              <label htmlFor='location'>Location</label>
               <input
-                id="location"
-                type="text"
+                id='location'
+                type='text'
                 value={location}
                 onChange={(e) => setLocation(e.target.value)}
-                placeholder="Your Location"
+                placeholder='Your Location'
               />
             </div>
-            <div className="form-group">
-              <label htmlFor="linkedin">LinkedIn</label>
+            <div className='form-group'>
+              <label htmlFor='linkedin'>LinkedIn</label>
               <input
-                id="linkedin"
-                type="text"
+                id='linkedin'
+                type='text'
                 value={linkedin}
                 onChange={(e) => setLinkedin(e.target.value)}
-                placeholder="Your LinkedIn"
+                placeholder='Your LinkedIn'
               />
             </div>
-            <div className="form-group">
-              <label htmlFor="github">GitHub</label>
+            <div className='form-group'>
+              <label htmlFor='github'>GitHub</label>
               <input
-                id="github"
-                type="text"
+                id='github'
+                type='text'
                 value={github}
                 onChange={(e) => setGithub(e.target.value)}
-                placeholder="Your GitHub"
+                placeholder='Your GitHub'
               />
             </div>
-            <div className="form-group">
-              <label htmlFor="summary">Summary</label>
+            <div className='form-group'>
+              <label htmlFor='summary'>Summary</label>
               <textarea
-                id="summary"
+                id='summary'
                 value={summary}
                 onChange={(e) => setSummary(e.target.value)}
-                placeholder="Summary"
+                placeholder='Summary'
               />
-              <button type="button" onClick={handleGeminiSummary}>Refine with AI</button>
+
+              <button
+                className='btn-three'
+                type='button'
+                onClick={handleGeminiSummary}
+              >
+                Refine with AI
+              </button>
             </div>
             <div>
               {refinedSummary && (
-                <div className="ai-response">
-                  <p><strong>Refined Summary:</strong> {refinedSummary}</p>
-                  <button type="button" onClick={() => setSummary(refinedSummary)}>Use This</button>
+                <div className='ai-response'>
+                  <p>
+                    <strong>Refined Summary:</strong> {refinedSummary}
+                  </p>
+                  <button
+                    type='button'
+                    onClick={() => setSummary(refinedSummary)}
+                  >
+                    Use This
+                  </button>
                 </div>
               )}
             </div>
-            <div className="form-group">
-              <label htmlFor="skills">Skills</label>
+            <div className='form-group'>
+              <label htmlFor='skills'>Skills</label>
               <textarea
-                id="skills"
+                id='skills'
                 value={skills}
                 onChange={(e) => setSkills(e.target.value)}
-                placeholder="Your Skills"
+                placeholder='Your Skills'
               />
             </div>
 
             {/* Experience */}
-            <div className="form-group">
+            <div className='form-group'>
               <label>Experience</label>
               {experience.map((exp, index) => (
-                <div key={index} className="experience-entry">
+                <div key={index} className='experience-entry'>
                   <input
-                    name="title"
-                    type="text"
+                    name='title'
+                    type='text'
                     value={exp.title}
                     onChange={(e) => handleExperienceChange(index, e)}
-                    placeholder="Job Title"
+                    placeholder='Job Title'
                   />
                   <input
-                    name="company"
-                    type="text"
+                    name='company'
+                    type='text'
                     value={exp.company}
                     onChange={(e) => handleExperienceChange(index, e)}
-                    placeholder="Company"
+                    placeholder='Company'
                   />
                   <input
-                    name="location"
-                    type="text"
+                    name='location'
+                    type='text'
                     value={exp.location}
                     onChange={(e) => handleExperienceChange(index, e)}
-                    placeholder="Location"
+                    placeholder='Location'
                   />
                   <input
-                    name="start_date"
-                    type="date"
+                    name='start_date'
+                    type='date'
                     value={exp.start_date}
                     onChange={(e) => handleExperienceChange(index, e)}
-                    placeholder="Start Date"
+                    placeholder='Start Date'
                   />
                   <input
-                    name="end_date"
-                    type="date"
+                    name='end_date'
+                    type='date'
                     value={exp.end_date}
                     onChange={(e) => handleExperienceChange(index, e)}
-                    placeholder="End Date"
+                    placeholder='End Date'
                   />
                   {exp.responsibilities.map((resp, respIndex) => (
-                    <div key={respIndex} className="responsibility-entry">
+                    <div key={respIndex} className='responsibility-entry'>
                       <input
-                        type="text"
+                        type='text'
                         value={resp}
-                        onChange={(e) => handleResponsibilityChange(index, e, respIndex)}
-                        placeholder="Responsibility"
+                        onChange={(e) =>
+                          handleResponsibilityChange(index, e, respIndex)
+                        }
+                        placeholder='Responsibility'
                       />
                     </div>
                   ))}
-                  <button type="button" onClick={() => handleGeminiResponsibilities(index)}>Refine with AI</button>
                   <button
-                    type="button"
+                    className='btn-three'
+                    type='button'
+                    onClick={() => handleGeminiResponsibilities(index)}
+                  >
+                    Refine with AI
+                  </button>
+                  <button
+                    className='btn-three'
+                    type='button'
                     onClick={() => {
                       const updatedExperience = [...experience];
                       updatedExperience[index].responsibilities.push('');
@@ -365,25 +442,33 @@ const Resume = () => {
                     Add Responsibility
                   </button>
                   {refinedResponsibilities[index] && (
-                    <div className="ai-response">
-                      <p><strong>Refined Responsibilities:</strong></p>
+                    <div className='ai-response'>
+                      <p>
+                        <strong>Refined Responsibilities:</strong>
+                      </p>
                       <ul>
                         {refinedResponsibilities[index].map((resp, idx) => (
                           <li key={idx}>{resp}</li>
                         ))}
                       </ul>
-                      <button type="button" onClick={() => {
-                        const updatedExperience = [...experience];
-                        updatedExperience[index].responsibilities = refinedResponsibilities[index];
-                        setExperience(updatedExperience);
-                      }}>Use These</button>
+                      <button
+                        type='button'
+                        onClick={() => {
+                          const updatedExperience = [...experience];
+                          updatedExperience[index].responsibilities =
+                            refinedResponsibilities[index];
+                          setExperience(updatedExperience);
+                        }}
+                      >
+                        Use These
+                      </button>
                     </div>
                   )}
-                  
                 </div>
               ))}
               <button
-                type="button"
+                className='btn-three'
+                type='button'
                 onClick={addExperience}
               >
                 Add Experience
@@ -391,104 +476,132 @@ const Resume = () => {
             </div>
 
             {/* Education */}
-            <div className="form-group">
+            <div className='form-group'>
               <label>Education</label>
               {education.map((edu, index) => (
-                <div key={index} className="education-entry">
+                <div key={index} className='education-entry'>
                   <input
-                    name="degree"
-                    type="text"
+                    name='degree'
+                    type='text'
                     value={edu.degree}
                     onChange={(e) => handleEducationChange(index, e)}
-                    placeholder="Degree"
+                    placeholder='Degree'
                   />
                   <input
-                    name="institution"
-                    type="text"
+                    name='institution'
+                    type='text'
                     value={edu.institution}
                     onChange={(e) => handleEducationChange(index, e)}
-                    placeholder="Institution"
+                    placeholder='Institution'
                   />
                   <input
-                    name="graduation_year"
-                    type="number"
+                    name='graduation_year'
+                    type='number'
                     value={edu.graduation_year}
                     onChange={(e) => handleEducationChange(index, e)}
-                    placeholder="Graduation Year"
+                    placeholder='Graduation Year'
                   />
                 </div>
               ))}
-              <button type="button" onClick={addEducation}>Add Education</button>
+              <button
+                className='btn-three'
+                type='button'
+                onClick={addEducation}
+              >
+                Add Education
+              </button>
             </div>
 
             {/* Certifications */}
-            <div className="form-group">
+            <div className='form-group'>
               <label>Certifications</label>
               {certifications.map((cert, index) => (
-                <div key={index} className="certification-entry">
+                <div key={index} className='certification-entry'>
                   <input
-                    name="name"
-                    type="text"
+                    name='name'
+                    type='text'
                     value={cert.name}
                     onChange={(e) => handleCertificationChange(index, e)}
-                    placeholder="Certification Name"
+                    placeholder='Certification Name'
                   />
                   <input
-                    name="year"
-                    type="number"
+                    name='year'
+                    type='number'
                     value={cert.year}
                     onChange={(e) => handleCertificationChange(index, e)}
-                    placeholder="Year"
+                    placeholder='Year'
                   />
                 </div>
               ))}
-              <button type="button" onClick={addCertification}>Add Certification</button>
+              <button
+                className='btn-three'
+                type='button'
+                onClick={addCertification}
+              >
+                Add Certification
+              </button>
             </div>
 
             {/* Projects */}
-            <div className="form-group">
+            <div className='form-group'>
               <label>Projects</label>
               {projects.map((proj, index) => (
-                <div key={index} className="project-entry">
+                <div key={index} className='project-entry'>
                   <input
-                    name="name"
-                    type="text"
+                    name='name'
+                    type='text'
                     value={proj.name}
                     onChange={(e) => handleProjectChange(index, e)}
-                    placeholder="Project Name"
+                    placeholder='Project Name'
                   />
                   <textarea
-                    name="description"
+                    name='description'
                     value={proj.description}
                     onChange={(e) => handleProjectChange(index, e)}
-                    placeholder="Project Description"
+                    placeholder='Project Description'
                   />
-                  <input
-                    name="technologies"
-                    type="text"
-                    value={proj.technologies}
-                    onChange={(e) => handleProjectChange(index, e)}
-                    placeholder="Technologies"
-                  />
+                  {proj.technologies.map((tech, techIndex) => (
+                    <div key={techIndex}>
+                      <input
+                        type='text'
+                        value={tech}
+                        onChange={(e) =>
+                          handleTechnologyChange(index, techIndex, e)
+                        }
+                        placeholder='Technology'
+                      />
+                    </div>
+                  ))}
+                  <button
+                    className='btn-three'
+                    type='button'
+                    onClick={() => {
+                      const updatedProjects = [...projects];
+                      updatedProjects[index].technologies.push('');
+                      setProjects(updatedProjects);
+                    }}
+                  >
+                    Add Technology
+                  </button>
                 </div>
               ))}
-              <button type="button" onClick={addProject}>Add Project</button>
+              <button className='btn-three' type='button' onClick={addProject}>
+                Add Project
+              </button>
             </div>
 
-            {error && <div className="error-message">{error}</div>}
-            {successMessage && <div className="success-message">{successMessage}</div>}
+            {error && <div className='error-message'>{error}</div>}
+            {successMessage && (
+              <div className='success-message'>{successMessage}</div>
+            )}
 
-            <button
-              type="submit"
-              className="submit-btn"
-              disabled={!isFormValid}
-            >
+            <button type='submit' className='btn-two' disabled={!isFormValid}>
               Save Resume
             </button>
           </form>
         )}
 
-         {/* Add ResumeList component to display fetched resumes */}
+        {/* Add ResumeList component to display fetched resumes */}
         <ResumeList resumes={resumes} fetchError={fetchError} />
       </div>
     </div>
