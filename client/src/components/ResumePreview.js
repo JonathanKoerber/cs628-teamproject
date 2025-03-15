@@ -31,7 +31,7 @@ const ResumePreview = ({
       width: 190,
       windowWidth: 1200,
       html2canvas: {
-        scale: 0.22,
+        scale: 0.215,
       },
     });
   };

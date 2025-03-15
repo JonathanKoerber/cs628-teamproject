@@ -43,13 +43,28 @@ const createResume = async (req, res) => {
 // Controller to get all resumes for the logged-in user
 const getResumes = async (req, res) => {
   try {
-    const resumes = await Resume.find({ email: req.user.email });
+    const resumes = await Resume.find({ email: req.query.email });
     if (resumes.length === 0) {
       return res.status(404).json({ message: 'No resumes found' });
     }
     res.status(200).json(resumes);
   } catch (error) {
     res.status(500).json({ message: 'Error fetching resumes', error });
+  }
+};
+
+//Controller to get a resume by ID
+const getResumeById = async (req, res) => {
+  try {
+    const resume = await Resume.findById(req.params.id);
+
+    if (!resume) {
+      return res.status(404).json({ message: 'Resume not found' });
+    }
+
+    res.status(200).json(resume);
+  } catch (error) {
+    res.status(500).json({ message: 'Error fetching resume', error });
   }
 };
 
@@ -106,5 +121,6 @@ module.exports = {
   createResume,
   getResumes,
   updateResume,
-  deleteResume
+  deleteResume,
+  getResumeById,
 };

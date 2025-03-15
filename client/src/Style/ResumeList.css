@@ -1,0 +1,100 @@
+/* Main container for the resume list */
+.resume-list {
+    margin: 20px;
+    padding: 15px;
+    border-radius: 8px;
+    background-color: #f4f6f7;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  h3 {
+    text-align: center;
+    color: #333;
+    font-size: 1.5em;
+    margin-bottom: 20px;
+  }
+  
+  .error-message {
+    color: red;
+    text-align: center;
+    font-weight: bold;
+    margin-bottom: 15px;
+  }
+  
+  .no-resumes {
+    text-align: center;
+    color: #777;
+    font-size: 1.2em;
+  }
+  
+  .resume-card-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+    padding: 20px;
+  }
+  
+  .resume-card {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    transition: transform 0.2s ease-in-out;
+    cursor: pointer;
+  }
+  
+  .resume-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  }
+  
+  .resume-name {
+    font-size: 1.3em;
+    color: #333;
+    margin-bottom: 10px;
+  }
+  
+  .resume-email,
+  .resume-skills {
+    font-size: 1em;
+    color: #555;
+    margin-bottom: 8px;
+  }
+  
+  .resume-card p {
+    margin: 5px 0;
+  }
+  /* Style for action buttons */
+  .resume-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+  }
+  
+  .edit-button,
+  .delete-button {
+    padding: 8px 12px;
+    font-size: 1em;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .edit-button {
+    background-color: #32add6;
+    color: white;
+  }
+  
+  .edit-button:hover {
+    background-color: #3498db;
+  }
+  
+  .delete-button {
+    background-color: #f44336;
+    color: white;
+  }
+  
+  .delete-button:hover {
+    background-color: #e53935;
+  }
