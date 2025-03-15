@@ -4,6 +4,7 @@ import {authReducer} from "./redux/auth/authSlice";
 import {resumeApi} from "./redux/resume/resumeSlice";
 
 
+
 const store = configureStore({
     reducer:{
         auth: authReducer,
@@ -11,6 +12,7 @@ const store = configureStore({
         // user: userReducer,
     },
     middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(resumeApi.middleware),
+
 })
 
 export default store;

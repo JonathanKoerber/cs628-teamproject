@@ -1,4 +1,4 @@
-
+/* ORIGINAL CODE
 .login-container{
     width: 100%;
     display: flex;
@@ -39,4 +39,61 @@
     border: none;
     border-radius: .5em;
     box-shadow: 2px 2px 4px rgba(100, 250, 254, 1);
+}
+*/
+
+.login-container {
+    max-width: 400px;
+    margin: 200px auto;
+    padding: 20px;
+    border-radius: 8px;
+    background-color: #ffffff;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);
+}
+
+.blue-logo {
+    display: flex;
+    align-items: flex-start;
+    margin-left: -5px;
+    max-width: 85px;
+}
+
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.login-form-btn {
+    margin-top: 22px;
+    padding: 15px;
+    background: #57BADD;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 26px;
+}
+
+.login-form-btn:hover {
+    background-color: #349ac0;
+}
+
+.sign-in-header{
+    text-align: start;
+    padding-left: 4px;
+    padding-bottom: 10px;
+}
+
+.login-container label {
+    margin-left: 5px;
+    font-weight: 400;
+    padding-top: 7px;
+}
+
+.btm-text{
+    text-align: center;
 }

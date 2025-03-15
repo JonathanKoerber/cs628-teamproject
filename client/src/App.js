@@ -7,7 +7,7 @@ import Layout from './pages/Layout';
 import LoginPage from './pages/LoginPage';
 import NoPage from './pages/NoPage'
 import Profile from './pages/Profile';
-import Resume from './pages/ResumeComponents';
+import Resume from './pages/Resume';
 import './App.css';
 import DisplayResume from "./components/DisplayResume";
 

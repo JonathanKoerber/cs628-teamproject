@@ -1,16 +1,15 @@
-import {Outlet, Link, useNavigate} from "react-router-dom";
-import {useEffect } from "react";
-import {toast, ToastContainer} from "react-toastify";
-import {useDispatch, useSelector} from "react-redux";
-import {logout} from "../redux/auth/authSlice";
+import { Outlet, Link, useNavigate } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
+import { useDispatch, useSelector } from 'react-redux';
+import { logout } from '../redux/auth/authSlice';
 import '../Style/Layout.css';
 import logo from '../assets/jazi_logo_removebg.png';
 
 const Layout = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const isLoggedIn = useSelector(state => state.auth.isLoggedIn);
   const message = useSelector(state => state.auth.message);
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
 
   const handleLogout = () => {
     navigate("/");
@@ -23,36 +22,51 @@ const Layout = () => {
 
   return (
     <>
-      <div className="nav-container">
-        <nav className="navbar">
-
-          <Link to="/">
+      <div className='nav-container'>
+        <nav className='navbar'>
+          <Link to='/'>
             <img src={logo} alt='Jazi AI Resume logo' className='logo' />
           </Link>
 
-          <div className="right-nav">
+          <div className='right-nav'>
             <ul>
-              <li><Link to="/">Home</Link></li>
-              {isLoggedIn ? (
-                  <li><Link to="/profile">Profile</Link></li>
-              ):(<li><Link>Profile</Link></li>)}
-              <li><Link to="/resume">Resume</Link></li>
-              <li><Link to="/aires">AI Resume</Link></li>
+              <li>
+                <Link to='/'>Home</Link>
+              </li>
               {isLoggedIn ? (
                 <li>
-                  <button className="btn-signin" onClick={handleLogout}>
+                  <Link to='/profile'>Profile</Link>
+                </li>
+              ) : (
+                <li>
+                  <Link>Profile</Link>
+                </li>
+              )}
+              <li>
+                <Link to='/resume'>Resume</Link>
+              </li>
+              <li>
+                <Link to='/aires'>AI Resume</Link>
+              </li>
+              {isLoggedIn ? (
+                <li>
+                  <button className='btn-signin' onClick={handleLogout}>
                     Logout
                   </button>
                 </li>
               ) : (
                 <>
-                  <li><Link to="/signup">Sign Up</Link></li>
+                  <li className='blue-font'>
+                    <Link className='wht-btn' to='/signup'>
+                      Sign Up
+                    </Link>
+                  </li>
                 </>
               )}
             </ul>
           </div>
         </nav>
-        <ToastContainer/>
+        <ToastContainer />
       </div>
 
       {/* Route content will be rendered here */}
