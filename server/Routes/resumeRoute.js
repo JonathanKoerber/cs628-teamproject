@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { createResume, getResumes, updateResume, deleteResume } = require('../Controlers/resumeController');
+const { createResume, getResumes, updateResume, deleteResume, getResumeById } = require('../Controlers/resumeController');
 const { userVerification } = require('../Middleware/AuthMiddleware');
 const { validateResumeFields, checkResumeOwnership, validateResumeFormat } = require('../Middleware/resumeMiddleware');
 
@@ -15,5 +15,8 @@ router.put('/resume/:id', userVerification, validateResumeFields, validateResume
 
 // Route to delete a resume by ID
 router.delete('/resume/:id', userVerification, checkResumeOwnership, deleteResume);
+
+//Route to get a resume by ID
+router.get('/resume/:id', userVerification, getResumeById);
 
 module.exports = router;

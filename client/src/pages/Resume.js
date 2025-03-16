@@ -4,6 +4,7 @@ import '../Style/Resume.css';
 import DisplayResume from '../components/DisplayResume';
 import ResumeList from '../components/ResumeList';
 import ResumePreview from '../components/ResumePreview';
+import { useSelector } from 'react-redux';
 
 const Resume = () => {
   // States for the form fields
@@ -40,8 +41,17 @@ const Resume = () => {
   const [fetchError, setFetchError] = useState('');
   const [showForm, setShowForm] = useState(true); // Show the form
 
+  const [isEditing, setIsEditing] = useState(false);  // New state for editing
+  const [editResumeId, setEditResumeId] = useState(null);  // Store the resume id being edited
+
+  const toggleEdit = () => {
+    setIsEditing(isEditing);
+  };
+
   const [refinedSummary, setRefinedSummary] = useState('');
   const [refinedResponsibilities, setRefinedResponsibilities] = useState([]);
+
+  const loggedInUserEmail = useSelector((state) => state.auth.email);
 
   // Fetch resumes on component mount
   const fetchResumes = async () => {
@@ -50,6 +60,7 @@ const Resume = () => {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('authToken')}`,
         },
+        params: { email: loggedInUserEmail }
       });
       setResumes(response.data);
     } catch (err) {
@@ -60,6 +71,68 @@ const Resume = () => {
   useEffect(() => {
     fetchResumes(); // Call fetchResumes when the component mounts
   }, []);
+
+  // Handle Edit button click
+  const onEditClick = async (resumeId) => {
+    try {
+      const response = await axios.get(`http://localhost:5000/api/resume/${resumeId}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+        },
+      });
+      setIsEditing(true);
+      const resumeData = response.data;
+      setEditResumeId(resumeData._id);
+      setName(resumeData.name);
+      setEmail(resumeData.email);
+      setPhone(resumeData.phone);
+      setLocation(resumeData.location);
+      setLinkedin(resumeData.linkedin);
+      setGithub(resumeData.github);
+      setSummary(resumeData.summary);
+      setSkills(resumeData.skills);
+      setExperience(resumeData.experience);
+      setEducation(resumeData.education);
+      setCertifications(resumeData.certifications);
+      setProjects(resumeData.projects);
+    } catch (error) {
+      console.error('Error fetching resume data:', error);
+    }
+  };
+
+  // Handle updating resume
+  const handleUpdateResume = async (e) => {
+    e.preventDefault();
+
+    const updatedResume = {
+      name,
+      email,
+      phone,
+      location,
+      linkedin,
+      github,
+      summary,
+      experience,
+      education,
+      skills,
+      certifications,
+      projects,
+    };
+
+    try {
+      await axios.put(`http://localhost:5000/api/resume/${editResumeId}`, updatedResume, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+        },
+      });
+      alert('Resume updated successfully!');
+      setIsEditing(false); // Exit edit mode
+      fetchResumes(); // Re-fetch the resumes after updating
+      resetForm(); // Reset form after successful update
+    } catch (err) {
+      console.error('Error updating resume:', err);
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -75,13 +148,11 @@ const Resume = () => {
 
     const resumeData = {
       name,
-      contact: {
-        email,
-        phone,
-        location,
-        linkedin,
-        github,
-      },
+      email,
+      phone,
+      location,
+      linkedin,
+      github,
       summary,
       experience,
       education,
@@ -246,6 +317,12 @@ const Resume = () => {
     }
   };
 
+  // Function to remove deleted resume from the state
+  const handleDeleteClick = (resumeId) => {
+    const updatedResumes = resumes.filter(resume => resume._id !== resumeId);
+    setResumes(updatedResumes);
+  };
+
   return (
     <div className='container-wrapper'>
       <div className='resume-container-left'>
@@ -263,12 +340,14 @@ const Resume = () => {
           certifications={certifications}
           projects={projects}
         />
+        {/* Add ResumeList component to display fetched resumes */}
+        <ResumeList resumes={resumes} onEditClick={onEditClick} onDeleteClick={handleDeleteClick} />
       </div>
       <div className='resume-container'>
-        <h2>Create Your Resume</h2>
+        <h2>{isEditing ? 'Edit Your Resume' : 'Create Your Resume'}</h2>
         {/* Show the form conditionally based on showForm */}
         {showForm && (
-          <form onSubmit={handleSubmit} className='resume-form'>
+          <form onSubmit={isEditing ? handleUpdateResume : handleSubmit} className='resume-form'>
             <div className='form-group'>
               <label htmlFor='name'>Name</label>
               <input
@@ -595,14 +674,13 @@ const Resume = () => {
               <div className='success-message'>{successMessage}</div>
             )}
 
-            <button type='submit' className='btn-two' disabled={!isFormValid}>
-              Save Resume
+            <button type='submit' className='btn-two' disabled={!isFormValid} onClick={toggleEdit}>
+              {isEditing ? 'Update Resume' : 'Save Resume'}
             </button>
           </form>
         )}
 
-        {/* Add ResumeList component to display fetched resumes */}
-        <ResumeList resumes={resumes} fetchError={fetchError} />
+        
       </div>
     </div>
   );
