@@ -24,7 +24,6 @@ const authSlice = createSlice({
             state.isLoggedIn = false;
             state.success = false;
             state.message = "Hi You have been logging out.";
-
             Cookies.remove("token")
         },
     },
@@ -36,13 +35,21 @@ const authSlice = createSlice({
                 console.log("pending")
             })
             .addCase(signupUser.fulfilled, (state, {payload}) => {
-                state.loading = false;
-                state.userusername = payload.user.username;
-                state.email = payload.user.email;
-                state.isLoggedIn = true;
-                state.success = true;
-                Cookies.set("token", payload.token, {expires: 1});
-                console.log("payload", payload);
+                if (payload.success === true) {
+                    state.loading = false;
+                    state.username = payload.user.username;
+                    state.email = payload.user.email;
+                    state.isLoggedIn = true;
+                    state.success = true;
+                    state.message = payload.message;
+                    console.log("success")
+                    console.log(state);
+                    Cookies.set("token", payload.token, {expires: 1});
+                }else{
+                    state.loading = false;
+                    state.message = payload.message
+                    state.success = false;
+                }
             })
             .addCase(signupUser.rejected, (state,{ payload} ) => {
                 state.loading = false
