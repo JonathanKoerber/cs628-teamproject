@@ -3,7 +3,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 
 const loginURL = process.env.REACT_APP_AUTH_LOGIN;
 const signupURL = process.env.REACT_APP_AUTH_SIGNUP;
-const baseURL = process.env.REACT_APP_BASE;
+const baseURL = process.env.REACT_APP_BASS;
 
 export const signupUser = createAsyncThunk(
     'auth/signup',
@@ -15,6 +15,7 @@ export const signupUser = createAsyncThunk(
                 },
                 withCredentials: true,
             }
+            console.log("Sending signup request:", { username, email, password });
            const response = await axios.post(
                 `${signupURL}`,
                 {
@@ -24,8 +25,8 @@ export const signupUser = createAsyncThunk(
                 },
                 config
             )
-            console.log('Signup User', response.data)
-            return response
+            console.log('Signup User', response)
+            return response.data
         }catch(error){
             if (error.response && error.response.data) {
                 return rejectWithValue(error.response.data.message);
@@ -68,32 +69,28 @@ export const loginUser = createAsyncThunk(
         }
     });
 
-
 export const validateUser = createAsyncThunk(
-  'auth/validateUser',
-  async (_, { rejectWithValue }) => {
-      console.log("validateUser Action");
+    'auth/validateUser',
+    async({rejectWithValue}) => {
+        console.log("validateUser Action");
+        // check if cookie is stale
+        try{
+            const config = {
+                withCredentials: true,
+            }
+            const response = await axios.get(
+                `${loginURL}`,
+                {withCredentials: true}
+            );
+            return response.data
+        }catch(error){
+            if (error.response && error.response.data) {
+                rejectWithValue(error.response.data.message);
+            }else{
+                return rejectWithValue(error.data);
+            }
+        }
+        //check backend
+    }
 
-      try {
-          // Configuration for axios request
-          const config = {
-              withCredentials: true,  // Ensure cookies are sent with the request
-          };
-
-          // Make the GET request to validate the user
-          const response = await axios.get(
-              `${baseURL}`,  // Ensure this URL points to a protected route on the backend
-              config  // Pass in the config here
-          );
-
-          // Return the response data if successful
-          return response.data;
-      } catch (error) {
-          // Catch and handle errors
-          if (error.response && error.response.data) {
-              return rejectWithValue(error.response.data.message);
-          } else {
-              return rejectWithValue("An error occurred while validating user");
-          }
-      }
-});
+)

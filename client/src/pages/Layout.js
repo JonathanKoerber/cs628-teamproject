@@ -10,14 +10,17 @@ const Layout = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+  const state = useSelector((state) => state.auth);
 
   useEffect(() => {
     if (isLoggedIn) {
       navigate('/profile');
     }
+    console.log(state)
   }, [isLoggedIn]);
+
   const handleLogout = () => {
-    console.log('logout');
+    navigate('/signup');
     dispatch(logout());
   };
 

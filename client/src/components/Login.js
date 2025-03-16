@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { ToastContainer, toast } from 'react-toastify';
 import { loginUser } from '../redux/auth/authActions';
 import logo from '../assets/jazi_blue_logo_removebg.png';
@@ -14,14 +14,15 @@ const Login = ({ toggleLogin }) => {
   const { email, password } = inputValue;
 
   const dispatch = useDispatch();
+  const state = useSelector(state => state.auth);
 
   const handleOnChange = (e) => {
     const { name, value } = e.target;
+    console.log("handleOnChange", name);
     setInputValue({
       ...inputValue,
       [name]: value,
     });
-    console.log(inputValue);
   };
 
   const clearInputs = () => {
@@ -34,6 +35,7 @@ const Login = ({ toggleLogin }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log(state)
     if (!inputValue.email || !inputValue.password) {
       toast('Email and password is required!', { position: 'bottom-right' });
     } else {
@@ -49,6 +51,7 @@ const Login = ({ toggleLogin }) => {
           console.log('login', err);
         });
     }
+    console.log(state)
     clearInputs();
   };
   return (
@@ -57,7 +60,7 @@ const Login = ({ toggleLogin }) => {
       <Link to='/'>
         <img src={logo} alt='Jazi AI Resume' className='blue-logo' />
       </Link>
-      <h2 className='sign-in-header'>Sign In</h2>
+      <h2 className='sign-in-header'>Log In</h2>
       <form
         className='login-form'
         onSubmit={handleSubmit}

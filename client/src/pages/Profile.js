@@ -1,5 +1,4 @@
-import React from 'react';
-import { useGetResumesQuery} from '../redux/resume/resumeSlice';
+import {useEffect, React} from 'react';
 import { useSelector } from 'react-redux';
 import ResumeCard from '../components/ResumeCard'; // Component to display individual resume
 
@@ -8,15 +7,18 @@ const ProfilePage = () => {
     const isLoggedIn = useSelector(state => state.auth.isLoggedIn)
     const email = useSelector(state => state.auth.email)
     // Fetching resumes using RTK Query hook
-    const { data: resumes, error: resumesError, isLoading: resumesLoading } = useGetResumesQuery();
+   // const { data: resumes, error: resumesError, isLoading: resumesLoading } = useGetResumesQuery();
 
-    if (user.isLoggedIn || resumesLoading) {
-        return <div>Loading...</div>;
-    }
-    if (resumesError) {
-        return <div>Error loading resumes.</div>;
-    }
-    console.log("resumes", resumes)
+    // if (user.isLoggedIn g) {
+    //     return <div>Loading...</div>;
+    // }
+    // if (resumesError) {
+    //     return <div>Error loading resumes.</div>;
+    // }
+    const state = useSelector(state => state.auth);
+    useEffect(()=>{
+        console.log(state)
+    }, [state])
     return (
         <div className="profile-page">
             {/* User Details */}
@@ -33,13 +35,13 @@ const ProfilePage = () => {
             {/* User Resumes */}
             <div className="user-resumes">
                 <h2>My Resumes</h2>
-                {resumes && resumes.length === 0 ? (
-                    <p>No resumes found.</p>
-                ) : (
-                    resumes.map((resume) => (
-                        <ResumeCard key={resume._id} resume={resume} />
-                    ))
-                )}
+                {/*{resumes && resumes.length === 0 ? (*/}
+                {/*    <p>No resumes found.</p>*/}
+                {/*) : (*/}
+                {/*    resumes.map((resume) => (*/}
+                {/*        <ResumeCard key={resume._id} resume={resume} />*/}
+                {/*    ))*/}
+                {/*)}*/}
             </div>
         </div>
     );
